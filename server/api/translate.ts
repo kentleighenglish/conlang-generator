@@ -6,7 +6,8 @@ import datamuse from "datamuse";
 import oldManergot from "../languages/old-manergot";
 import type { OldManergotResponse } from "../languages/old-manergot";
 
-// cache.createCache("translations");
+
+const translationStorage = useStorage("translation")
 
 const languages: Record<string, (input: string, chaos?: number) => OldManergotResponse> = {
     "Old Manergot": oldManergot,
@@ -18,10 +19,11 @@ const languages: Record<string, (input: string, chaos?: number) => OldManergotRe
 const grabTranslations = async (inputWord: string) => {
     const out = [];
 
-    // const cached = cache.get("translations", inputWord)
-    // if (cached) {
-    //     return cached;
-    // }
+     const cached = await translationStorage.getItem(`translation:${inputWord}`);
+
+    if (cached) {
+        return cached;
+    }
 
     try {
         const synonyms: Array<{ word: string }> = await datamuse.request(`words?rel_syn=${inputWord}`);
@@ -42,7 +44,7 @@ const grabTranslations = async (inputWord: string) => {
         console.error("Error while translating", e);
     }
 
-    // cache.set("translations", inputWord, out);
+    await translationStorage.setItem(inputWord, out)
 
     return out;
 }
