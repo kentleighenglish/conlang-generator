@@ -1,12 +1,12 @@
 import translate from "google-translate-api-x";
 import datamuse from "datamuse";
 
-import * as cache from "../cache";
+// import * as cache from "../plugins/cache";
 
 import oldManergot from "../languages/old-manergot";
 import type { OldManergotResponse } from "../languages/old-manergot";
 
-cache.createCache("translations");
+// cache.createCache("translations");
 
 const languages: Record<string, (input: string, chaos?: number) => OldManergotResponse> = {
     "Old Manergot": oldManergot,
@@ -18,10 +18,10 @@ const languages: Record<string, (input: string, chaos?: number) => OldManergotRe
 const grabTranslations = async (inputWord: string) => {
     const out = [];
 
-    const cached = cache.get("translations", inputWord)
-    if (cached) {
-        return cached;
-    }
+    // const cached = cache.get("translations", inputWord)
+    // if (cached) {
+    //     return cached;
+    // }
 
     try {
         const synonyms: Array<{ word: string }> = await datamuse.request(`words?rel_syn=${inputWord}`);
@@ -42,26 +42,31 @@ const grabTranslations = async (inputWord: string) => {
         console.error("Error while translating", e);
     }
 
-    cache.set("translations", inputWord, out);
+    // cache.set("translations", inputWord, out);
 
     return out;
 }
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event)
+    const { input: inputWord = null } = getQuery<{ input: string }>(event)
+    console.log("INPUTWORD", inputWord);
 
-    if (!body.input) {
+    if (!inputWord) {
         throw "Input required";
     }
 
-    const words = await grabTranslations(body.input);
+    const words = await grabTranslations(inputWord);
 
+    const out: Record<string, OldManergotResponse[]> = {};
     for (const language of Object.keys(languages)) {
         const translatedWords = [];
         for (const word of words) {
             const translated = await languages[language](word.translated, 0);
             translatedWords.push(translated);
         }
-        console.log(language, translatedWords);
+
+        out[language] = translatedWords;
     }
+
+    return out;
 })

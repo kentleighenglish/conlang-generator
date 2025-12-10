@@ -9,6 +9,8 @@
 <template>
   <UApp>
     <UNavigationMenu :items="navItems" />
-    <NuxtPage />
+    <UContainer class="mt-4">
+      <NuxtPage />
+    </UContainer>
   </UApp>
 </template>
