@@ -1,9 +1,10 @@
 import translate from "google-translate-api-x";
+// @ts-expect-error there are no datamuse types, and can't be bothered to make some
 import datamuse from "datamuse";
 
 import { OldManergot } from "../languages/old-manergot";
 
-import type { LanguageClass, Translation } from "../../types/translate";
+import type { LanguageClass, GoogleTranslation, TranslateResponse } from "../../types/translate";
 
 const translationStorage = useStorage("translation");
 
@@ -15,7 +16,6 @@ const languages: LanguageClassConstructor[] = [
     // "Ogma":
 ];
 
-type GoogleTranslation = { original: string; translated: string; lang: string; score: number; };
 const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]> => {
     const out = [];
 
@@ -30,7 +30,7 @@ const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]>
         
         const filteredSyns = synonyms.map(({ word, score }) => ({ word, score })).slice(0, 5);
 
-        const words = [{ word: inputWord, score: 10000 }, ...filteredSyns];
+        const words = [{ word: inputWord, score: 1000000 }, ...filteredSyns];
 
         for (const { word, score } of words){
             const response = await translate(word, { from: "en", to: "de" });
@@ -51,35 +51,29 @@ const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]>
     return out;
 };
 
-type TranslationsCollection = {
-    key: string;
-    label: string;
-    translations: Translation[]
-};
-export default defineEventHandler(async (event): Promise<TranslationsCollection[]> => {
-    const { input: inputWord = null } = getQuery<{ input: string }>(event);
-    console.log("INPUTWORD", inputWord);
-
-    if (!inputWord) {
+export default defineEventHandler(async (event): Promise<TranslateResponse> => {
+    const { input = null } = getQuery<{ input: string }>(event);
+    
+    if (!input) {
         throw "Input required";
     }
+    const inputWord = input?.toLowerCase().trim();
 
     const words = await grabTranslations(inputWord);
 
-    const out: TranslationsCollection[] = [];
+    const out: TranslateResponse = [];
     for (const languageClass of languages) {
         const language = new languageClass();
 
-        const translatedWords: Translation[] = [];
         for (const word of words) {
-            const translated = await language.translate(word.translated);
-            translatedWords.push(...translated);
+            const translated = language.translate(word.translated);
+            out.push(...translated.map((t) => ({
+                ...word,
+                ...t,
+                languageLabel: language.name,
+                languageKey: language.key,
+            })));
         }
-        out.push({
-            key: language.key,
-            label: language.name,
-            translations: translatedWords
-        });
     }
 
     return out;

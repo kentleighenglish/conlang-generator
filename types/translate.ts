@@ -5,6 +5,13 @@ export interface LanguageClass {
     translate(input: string): Translation[];
 };
 
+export type GoogleTranslation = {
+    original: string;
+    translated: string;
+    lang: string;
+    score: number;
+};
+
 export type Translation = {
     rootText: string;
     rootTextIPA: string;
@@ -12,3 +19,9 @@ export type Translation = {
     translatedTextIPA: string;
     chaos: number;
 }
+
+export type TranslateResponseItem = Translation & GoogleTranslation & {
+    languageKey: string;
+    languageLabel: string;
+};
+export type TranslateResponse = Array<TranslateResponseItem>;
