@@ -4,6 +4,7 @@ import type { LanguageClass, Translation } from "../../types/translate";
 
 export class OldManergot implements LanguageClass {
   public name = "Old Manergot";
+  public key = "oldManergot";
 
   /**
    * Drastically evolved post-apocalyptic conlang generator

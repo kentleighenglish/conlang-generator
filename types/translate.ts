@@ -1,6 +1,7 @@
 
 export interface LanguageClass {
     name: string;
+    key: string;
     translate(input: string): Translation[];
 };
 

@@ -1,22 +1,19 @@
 import translate from "google-translate-api-x";
 import datamuse from "datamuse";
 
-import * as oldManergot from "../languages/old-manergot";
+import { OldManergot } from "../languages/old-manergot";
 
-import type { Translation } from "../../types/translate";
+import type { LanguageClass, Translation } from "../../types/translate";
 
 const translationStorage = useStorage("translation");
 
-type Language = {
-    name: string;
-    translate: (input: string, chaos?: number) => Translation[];
-};
-const languages: Record<string, Language> = {
-    oldManergot,
+type LanguageClassConstructor = new () => LanguageClass;
+const languages: LanguageClassConstructor[] = [
+    OldManergot,
     // "New Manergot":
     // "Tamani":
     // "Ogma":
-};
+];
 
 type GoogleTranslation = { original: string; translated: string; lang: string; score: number; };
 const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]> => {
@@ -59,7 +56,7 @@ type TranslationsCollection = {
     label: string;
     translations: Translation[]
 };
-export default defineEventHandler(async (event): Promise<TranslationsCollection> => {
+export default defineEventHandler(async (event): Promise<TranslationsCollection[]> => {
     const { input: inputWord = null } = getQuery<{ input: string }>(event);
     console.log("INPUTWORD", inputWord);
 
@@ -69,17 +66,17 @@ export default defineEventHandler(async (event): Promise<TranslationsCollection>
 
     const words = await grabTranslations(inputWord);
 
-    const out: TranslationsCollection = [];
-    for (const languageKey of Object.keys(languages)) {
-        const language = languages[languageKey];
+    const out: TranslationsCollection[] = [];
+    for (const languageClass of languages) {
+        const language = new languageClass();
 
         const translatedWords: Translation[] = [];
         for (const word of words) {
-            const translated = await languages.translate(word.translated, 0);
+            const translated = await language.translate(word.translated);
             translatedWords.push(...translated);
         }
         out.push({
-            key: languageKey,
+            key: language.key,
             label: language.name,
             translations: translatedWords
         });
