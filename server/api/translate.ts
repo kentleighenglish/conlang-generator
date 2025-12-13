@@ -6,8 +6,6 @@ import { OldManergot } from "../languages/old-manergot";
 
 import type { LanguageClass, GoogleTranslation, TranslateResponse } from "../../types/translate";
 
-const translationStorage = useStorage("translation");
-
 type LanguageClassConstructor = new () => LanguageClass;
 const languages: LanguageClassConstructor[] = [
     OldManergot,
@@ -16,14 +14,8 @@ const languages: LanguageClassConstructor[] = [
     // "Ogma":
 ];
 
-const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]> => {
+const grabTranslations = cachedFunction(async (inputWord: string): Promise<GoogleTranslation[]> => {
     const out = [];
-
-     const cached = await translationStorage.getItem(`translation:${inputWord}`);
-
-    if (cached) {
-        return cached as GoogleTranslation[];
-    }
 
     try {
         const synonyms: Array<{ word: string, score: number; }> = await datamuse.request(`words?rel_syn=${inputWord}`);
@@ -44,12 +36,12 @@ const grabTranslations = async (inputWord: string): Promise<GoogleTranslation[]>
         console.error("Error while translating", e);
     }
 
-    await translationStorage.setItem(inputWord, out, {
-        
-    });
-
     return out;
-};
+}, {
+  maxAge: 60 * 60,
+  name: "translation",
+  getKey: (input: string) => `translation:${input}`
+});
 
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
     const { input = null } = getQuery<{ input: string }>(event);
