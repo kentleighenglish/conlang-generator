@@ -37,19 +37,19 @@ const tableColumns: TableColumn<TranslateResponseItem>[] = [
     },
     {
         accessorKey: "rootText",
-        header: "Original"
-    },
-    {
-        accessorKey: "rootTextIPA",
-        header: "Original IPA"
-    },
-    {
-        accessorKey: "translatedText",
         header: "Translated"
     },
     {
-        accessorKey: "translatedTextIPA",
+        accessorKey: "rootTextIPA",
         header: "Translated IPA"
+    },
+    {
+        accessorKey: "translatedText",
+        header: "Conlang"
+    },
+    {
+        accessorKey: "translatedTextIPA",
+        header: "Conlang IPA"
     },
     {
         accessorKey: "chaos",
