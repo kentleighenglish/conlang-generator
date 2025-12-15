@@ -19,6 +19,10 @@ export class OldManergot implements LanguageClass {
 
     const germanIPA = await fetchIPA(germanWord, "de");
 
+    if (!germanIPA) {
+      throw "Cannot get German IPA";
+    }
+
     // === Step 2: Core systematic drift (your original conlang as base) ===
     let c = word;
 

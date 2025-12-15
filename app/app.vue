@@ -4,7 +4,7 @@
         label: "Translator",
         to: "/translator",
       }
-  ]
+  ];
 </script>
 <template>
   <UApp>
