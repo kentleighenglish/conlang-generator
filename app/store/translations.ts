@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import type { TranslateResponse } from "~~/types/translate";
 
 export const useTranslationStore = defineStore("translations", () => {
+    const toast = useToast();
+
     const translations = ref<Record<string, { loading: boolean; items: TranslateResponse }>>({});
 
     const translate = async (translateInput: string) => {
@@ -17,10 +19,10 @@ export const useTranslationStore = defineStore("translations", () => {
             },
         });
 
-      translations.value[translateInput] = {
-        loading: false,
-        items: data
-      };
+        translations.value[translateInput] = {
+            loading: false,
+            items: data
+        };
     };
 
     return {
