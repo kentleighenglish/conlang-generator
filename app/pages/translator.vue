@@ -2,23 +2,23 @@
 import type { TableColumn } from "@nuxt/ui";
 import { getGroupedRowModel } from "@tanstack/vue-table";
 import type { GroupingOptions } from "@tanstack/vue-table";
-    
-import type { TranslateResponse, TranslateResponseItem } from "~~/types/translate";
+
+import { useTranslationStore } from "~/store/translations";
+
+import type { TranslateResponseItem } from "~~/types/translate";
 
 const translateInput = ref<string>("");
-    
-const { data, execute, status } = await useFetch<TranslateResponse>("/api/translate", {
-    query: {
-        input: translateInput
-    },
-    immediate: false,
-    watch: false,
-});
-const isLoading = computed(() => status.value === "pending");
+const loadedTranslateInput = ref<string>("");
+
+const translationStore = useTranslationStore();
+
+const data = computed(() => translationStore.translations[loadedTranslateInput.value] || { loading: false, items: [] });
 
 const onTranslate = async () => {
     if (translateInput.value.length) {
-        await execute();
+        loadedTranslateInput.value = translateInput.value.toLowerCase();
+        
+        await translationStore.translate(translateInput.value);
     }
 };
 
@@ -82,12 +82,12 @@ const groupingOptions = ref<GroupingOptions>({
     <div>
         <UFieldGroup>
             <UForm @submit="onTranslate">
-                <UInput v-model="translateInput" type="text" placeholder="Translate Input" :loading="isLoading" required />
-                <UButton :disabled="isLoading || !translateInput.length" type="submit">Translate</UButton>
+                <UInput v-model="translateInput" type="text" placeholder="Translate Input" :loading="data.loading" required />
+                <UButton :disabled="!translateInput.length || data.loading" type="submit">Translate</UButton>
             </UForm>
         </UFieldGroup>
         <UTable
-            :data="data"
+            :data="data.items"
             :columns="tableColumns"
             :grouping-options="groupingOptions"
             :grouping="['languageKey']"

@@ -1,4 +1,4 @@
-
+import { fetchIPA } from "../helpers/unalengua";
 import type { LanguageClass, Translation } from "../../types/translate";
 
 
@@ -13,43 +13,11 @@ export class OldManergot implements LanguageClass {
    * @param {string} germanWord - German input word (e.g. "Berg", "Gold", "Jäger")
    * @returns {Object} { german, germanIPA, conlang, conlangIPA, chaosLevel, notes }
    */
-  public translate(germanWord: string): Translation[] {
-    let word = germanWord.toLowerCase().trim();
+  public async translate(germanWord: string): Promise<Translation[]> {
+    const word = germanWord.toLowerCase().trim();
     const chaos = 0; // temporary @todo implement incremental response
 
-    // Normalize German spelling quirks
-    word = word
-      .replace(/ä/g, 'ae')
-      .replace(/ö/g, 'oe')
-      .replace(/ü/g, 'ue')
-      .replace(/ß/g, 'ss')
-      .replace(/ph/g, 'f')
-      .replace(/pf/g, 'f')
-      .replace(/qu/g, 'kv');
-
-    // === Step 1: Rough German → IPA approximation ===
-    let ipa = word;
-    ipa = ipa
-      .replace(/sch/g, 'ʃ')
-      .replace(/ch/g, 'x')
-      .replace(/pf/g, 'f')
-      .replace(/ng/g, 'ŋ')
-      .replace(/r/g, 'ʁ')
-      .replace(/aː/g, 'a')
-      .replace(/oː/g, 'o')
-      .replace(/uː/g, 'u')
-      .replace(/eː/g, 'e')
-      .replace(/iː/g, 'i')
-      .replace(/yː/g, 'y')
-      .replace(/øː/g, 'ø')
-      .replace(/au/g, 'aʊ')
-      .replace(/ai/g, 'aɪ')
-      .replace(/ei/g, 'aɪ')
-      .replace(/eu/g, 'ɔʏ')
-      .replace(/er$/g, 'ɐ')
-      .replace(/en$/g, 'ən');
-
-    const germanIPA = '/' + ipa.replace(/[^a-zɑɔɛɪʊɔʏaɪaʊʃçxʁŋ]/g, '') + '/';
+    const germanIPA = await fetchIPA(germanWord, "de");
 
     // === Step 2: Core systematic drift (your original conlang as base) ===
     let c = word;

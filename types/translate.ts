@@ -2,7 +2,7 @@
 export interface LanguageClass {
     name: string;
     key: string;
-    translate(input: string): Translation[];
+    translate(input: string): Promise<Translation[]> | Translation[];
 };
 
 export type GoogleTranslation = {

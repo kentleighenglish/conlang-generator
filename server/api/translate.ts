@@ -53,12 +53,16 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
 
     const words = await grabTranslations(inputWord);
 
+    if (!words) {
+        return [];
+    }
+
     const out: TranslateResponse = [];
     for (const languageClass of languages) {
         const language = new languageClass();
 
         for (const word of words) {
-            const translated = language.translate(word.translated);
+            const translated = await language.translate(word.translated);
             out.push(...translated.map((t) => ({
                 ...word,
                 ...t,
