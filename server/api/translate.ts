@@ -60,7 +60,7 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
 
     const langKeys = lang.split(",") as ValidLanguage[];
     
-    if (langKeys.filter((key) => !languages.includes(key as ValidLanguage))) {
+    if (langKeys.filter((key) => !languages.includes(key as ValidLanguage)).length > 0) {
         throw "Invalid language provided";
     }
 
