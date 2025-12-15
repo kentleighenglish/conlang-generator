@@ -1,7 +1,7 @@
 
 import type { ValidLanguage } from "../../types/translate";
 
-export async function fetchIPA(input: string, lang: ValidLanguage): Promise<string | undefined> {
+export async function fetchIPA(input: string, lang: ValidLanguage): Promise<string> {
     const response = await fetch("https://api2.unalengua.com/ipav3", {
         method: "POST",
         headers: {
@@ -17,7 +17,9 @@ export async function fetchIPA(input: string, lang: ValidLanguage): Promise<stri
 
     const body = await response.json();
 
-    if (body?.ipa) {
+    if (body.ipa) {
         return body.ipa;
+    } else {
+        throw Error("Could not fetch IPA");
     }
 }
