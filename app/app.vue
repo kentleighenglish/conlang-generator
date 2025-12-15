@@ -1,16 +1,25 @@
 <script setup lang="ts">
-  const navItems = [
-      {
-        label: "Translator",
-        to: "/translator",
-      }
-  ];
+const dashboardNav = [
+  {
+    label: "Languages",
+    value: "languages"
+  },
+  {
+    label: "Translator",
+    value: "translator"
+  }
+];
 </script>
 <template>
   <UApp>
-    <UNavigationMenu :items="navItems" />
-    <UContainer class="mt-4">
-      <NuxtPage />
-    </UContainer>
+    <UDashboardPanel>
+      <template #header>
+        <UDashboardNavbar title="Conlang Generator">
+          <template #right>
+            <UTabs :items="dashboardNav" default-value="languages" size="lg" />
+          </template>
+        </UDashboardNavbar>
+      </template>
+    </UDashboardPanel>
   </UApp>
 </template>

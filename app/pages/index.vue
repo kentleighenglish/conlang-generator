@@ -1,5 +1,12 @@
+<script setup>
+
+</script>
 <template>
-    <div>
-        HELLO WORLD
-    </div>
+  <UDashboardPanel>
+    <template #header>
+      <UDashboardNavbar />
+
+      <UDashboardToolbar />
+    </template>
+  </UDashboardPanel>
 </template>
