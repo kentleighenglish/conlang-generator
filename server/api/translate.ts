@@ -1,20 +1,23 @@
 import translate from "google-translate-api-x";
 // @ts-expect-error there are no datamuse types, and can't be bothered to make some
 import datamuse from "datamuse";
+import { fetchIPA } from "../helpers/unalengua";
 
-import { OldManergot } from "../languages/old-manergot";
+// import { OldManergot } from "../languages/old-manergot";
 
-import type { LanguageClass, GoogleTranslation, TranslateResponse } from "../../types/translate";
+import type { Translation, TranslateResponse, ValidLanguage } from "../../types/translate";
 
-type LanguageClassConstructor = new () => LanguageClass;
-const languages: LanguageClassConstructor[] = [
-    OldManergot,
-    // "New Manergot":
-    // "Tamani":
-    // "Ogma":
-];
+// type LanguageClassConstructor = new () => LanguageClass;
+// const languages: LanguageClassConstructor[] = [
+//     OldManergot,
+//     // "New Manergot":
+//     // "Tamani":
+//     // "Ogma":
+// ];
 
-const grabTranslations = cachedFunction(async (inputWord: string): Promise<GoogleTranslation[]> => {
+const languages: ValidLanguage[] = ["de", "ru"];
+
+const grabTranslations = cachedFunction(async (inputWord: string, languages: ValidLanguage[]): Promise<Translation[]> => {
     const out = [];
 
     try {
@@ -25,13 +28,14 @@ const grabTranslations = cachedFunction(async (inputWord: string): Promise<Googl
         const words = [{ word: inputWord, score: 1000000 }, ...filteredSyns];
 
         for (const { word, score } of words){
-            const response = await translate(word, { from: "en", to: "de" });
-            out.push({ original: word, translated: response.text, lang: "de", score });
+            for (const lang of languages) {
+                const response = await translate(word, { from: "en", to: lang });
+
+                const ipa = await fetchIPA(response.text, lang);
+
+                out.push({ original: word, translated: response.text, lang: lang, score, ipa });
+            }
         }
-        // for (let word of words){
-        //     const response = await translate(word, { from: "en", to: "ru" });
-        //     out.push({ original: word, translated: response.text, lang: "ru" });
-        // }
     } catch (e) {
         console.error("Error while translating", e);
     }
@@ -44,33 +48,27 @@ const grabTranslations = cachedFunction(async (inputWord: string): Promise<Googl
 });
 
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
-    const { input = null } = getQuery<{ input: string }>(event);
+    const { input = null, lang } = getQuery<{ input: string, lang: string }>(event);
     
     if (!input) {
         throw "Input required";
+    } else if (!lang) {
+        throw "Language required";
     }
+
     const inputWord = input?.toLowerCase().trim();
 
-    const words = await grabTranslations(inputWord);
+    const langKeys = lang.split(",") as ValidLanguage[];
+    
+    if (langKeys.filter((key) => !languages.includes(key as ValidLanguage))) {
+        throw "Invalid language provided";
+    }
+
+    const words = await grabTranslations(inputWord, langKeys);
 
     if (!words) {
         return [];
     }
 
-    const out: TranslateResponse = [];
-    for (const languageClass of languages) {
-        const language = new languageClass();
-
-        for (const word of words) {
-            const translated = await language.translate(word.translated);
-            out.push(...translated.map((t) => ({
-                ...word,
-                ...t,
-                languageLabel: language.name,
-                languageKey: language.key,
-            })));
-        }
-    }
-
-    return out;
+    return words;
 });

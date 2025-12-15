@@ -1,7 +1,7 @@
 
-type Lang = "de" | "ru"
+import type { ValidLanguage } from "../../types/translate";
 
-export async function fetchIPA(input: string, lang: Lang): Promise<string | undefined> {
+export async function fetchIPA(input: string, lang: ValidLanguage): Promise<string | undefined> {
     const response = await fetch("https://api2.unalengua.com/ipav3", {
         method: "POST",
         headers: {
