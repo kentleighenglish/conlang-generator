@@ -61,16 +61,6 @@ const tableColumns: TableColumn<TranslateResponseItem>[] = [
         aggregationFn: "sum",
         aggregatedCell: () => "Hello world"
     },
-    // {
-    //     accessorKey: "windowsLinux",
-    //     header: "Windows/Linux",
-    //     cell: ({ cell }: CellContext<TableData, TableShortcut>) => generateShortcutVnodes(cell.getValue())
-    // },
-    // {
-    //     accessorKey: "macos",
-    //     header: "MacOS",
-    //     cell: ({ cell }: CellContext<TableData, TableShortcut>) => generateShortcutVnodes(cell.getValue())
-    // }
 ];
 
 const groupingOptions = ref<GroupingOptions>({

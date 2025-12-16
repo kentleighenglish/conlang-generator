@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import type { TranslateResponse } from "~~/types/translate";
 
-export const useTranslationStore = defineStore("translations", () => {
+export const useTranslationStore = defineStore("translation", () => {
     const translations = ref<Record<string, { loading: boolean; items: TranslateResponse }>>({});
 
     const translate = async (translateInput: string) => {
