@@ -26,25 +26,21 @@ watch(activeTab, (newTab) => {
 });
 </script>
 <template>
-    <UDashboardPanel class="h-screen">
-        <template #header>
-            <UDashboardNavbar title="Conlang Generator">
-                <template #right>
-                    <UTabs v-model="activeTab" :items="dashboardNav" size="lg" variant="pill" :content="false" />
-                </template>
-            </UDashboardNavbar>
-        </template>
-        <template #body>
-            <UCarousel
-                v-slot="{ item }"
-                ref="dashboardTabCarousel"
-                :items="dashboardNav"
-                :watch-drag="false"
-                class="w-full h-full"
-                :ui="{ viewport: 'overflow-hidden h-full' }"
-            >
-                <component :is="item.node" />
-            </UCarousel>
-        </template>
-    </UDashboardPanel>
+    <div class="w-screen h-screen overflow-hidden">
+        <UDashboardNavbar title="Conlang Generator">
+            <template #right>
+                <UTabs v-model="activeTab" :items="dashboardNav" size="lg" variant="pill" :content="false" />
+            </template>
+        </UDashboardNavbar>
+        <UCarousel
+            v-slot="{ item }"
+            ref="dashboardTabCarousel"
+            :items="dashboardNav"
+            :watch-drag="false"
+            class="w-full h-full"
+            :ui="{ viewport: 'overflow-hidden h-full' }"
+        >
+            <component :is="item.node" />
+        </UCarousel>
+    </div>
 </template>
