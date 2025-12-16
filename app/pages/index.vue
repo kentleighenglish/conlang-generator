@@ -2,13 +2,14 @@
 const tabCarousel = useTemplateRef("dashboardTabCarousel");
 const activeTab = ref<number>(0); // this is changed by UTabs
 
+const DashboardLanguages = resolveComponent("DashboardLanguages");
 const DashboardTranslator = resolveComponent("DashboardTranslator");
 const dashboardNav = [
   {
     icon: "i-ion:language",
     label: "Languages",
     value: 0,
-    node: h("div", { class: "w-full h-full" }, ["Hello World"]),
+    node: h(DashboardLanguages),
   },
   {
     icon: "i-oui:generate",
@@ -25,7 +26,7 @@ watch(activeTab, (newTab) => {
 });
 </script>
 <template>
-    <UDashboardPanel>
+    <UDashboardPanel class="h-screen">
         <template #header>
             <UDashboardNavbar title="Conlang Generator">
                 <template #right>
@@ -34,12 +35,15 @@ watch(activeTab, (newTab) => {
             </UDashboardNavbar>
         </template>
         <template #body>
-            <UCarousel v-slot="{ item }" ref="dashboardTabCarousel" :items="dashboardNav" :watch-drag="false" class="w-full h-full">
+            <UCarousel
+                v-slot="{ item }"
+                ref="dashboardTabCarousel"
+                :items="dashboardNav"
+                :watch-drag="false"
+                class="w-full h-full"
+                :ui="{ viewport: 'overflow-hidden h-full' }"
+            >
                 <component :is="item.node" />
-                <!-- <div class="w-full h-full">
-                    <h1>HELLO WORLD</h1>
-                </div>
-                <DashboardTranslator /> -->
             </UCarousel>
         </template>
     </UDashboardPanel>
