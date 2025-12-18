@@ -5,7 +5,8 @@ export default withNuxt([
   {
     rules: {
       "semi": 1,
-      "vue/multi-word-component-names": 0
+      "vue/multi-word-component-names": 0,
+      "comma-dangle": ["error", "only-multiline"],
     }
   }
 ]);
