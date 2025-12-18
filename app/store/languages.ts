@@ -17,6 +17,7 @@ type Language = {
 };
 
 export const useLanguageStore = defineStore("language", () => {
+  const storeInitialized = ref<boolean>(false);
   const languages = ref<Language[]>([]);
   const currentLanguageId = ref<string | null>(null);
 
@@ -32,6 +33,7 @@ export const useLanguageStore = defineStore("language", () => {
       if (storedCurrentLanguage) {
         currentLanguageId.value = storedCurrentLanguage;
       }
+      storeInitialized.value = true;
     }
   };
 
@@ -66,5 +68,6 @@ export const useLanguageStore = defineStore("language", () => {
     currentLanguageId,
     setCurrentLanguage,
     init,
+    storeInitialized,
   };
 });
