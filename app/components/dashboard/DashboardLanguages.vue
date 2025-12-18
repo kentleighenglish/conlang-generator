@@ -1,20 +1,51 @@
 <script setup lang="ts">
-import type { TabsItem } from '@nuxt/ui';
+import type { NavigationMenuItem, TableColumn } from '@nuxt/ui';
+import { useLanguageStore, type SoundShift } from '~/store/languages';
 
+const { languages, addLanguage, setCurrentLanguage, currentLanguage, currentLanguageId } = useLanguageStore();
 
-const languages = [
-    { label: "Old Manergot" }
-];
-
-const languageConfigTabs: TabsItem[] = [
-    {
-        label: "Vowel Shift",
-        slot: "vowelShift",
+const addLanguageModalOpen = ref<boolean>(false);
+const navItems = computed<NavigationMenuItem[]>(() => ([
+  ...languages.map((language) => ({
+    label: language.name,
+    active: language.id === currentLanguageId,
+    onSelect: () => setCurrentLanguage(language.id),
+  })),
+  {
+    label: "Add Language",
+    icon: "i-ion:plus",
+    onSelect: (e: Event) => {
+      e.preventDefault();
+      addLanguageModalOpen.value = true;
     }
+  }
+]));
+
+const tableColumns: TableColumn<SoundShift>[] = [
+    {
+        id: "title",
+        header: "Language"
+    },
 ];
+
+const addLanguageName = ref<string>("");
+const onAddLanguage = () => {
+  if (addLanguageName.value) {
+    addLanguage({ name: addLanguageName.value });
+  }
+};
+
 </script>
 <template>
   <UDashboardGroup storage="local" storage-key="languagesDashboard" class="h-full">
+    <UModal ref="addLanguageModal" v-model:open="addLanguageModalOpen">
+      <template #body>
+        <UForm @submit="onAddLanguage">
+          <UInput v-model="addLanguageName" type="text" placeholder="Name" />
+          <UButton type="submit" block color="primary">Add</UButton>
+        </UForm>
+      </template>
+    </UModal>
     <UDashboardSidebar collapsible :ui="{ root: 'min-h-full' }">
         <template #header>
             <h1 class="prose">Languages</h1>
@@ -22,39 +53,17 @@ const languageConfigTabs: TabsItem[] = [
         <template #default>
             <UNavigationMenu
                 highlight
-                :items="languages"
+                :items="navItems"
                 orientation="vertical"
             />
         </template>
     </UDashboardSidebar>
     <UDashboardPanel class="h-full min-h-full overflow-hidden">
       <template #body>
-        <div class="grid grid-rows-2 grid-cols-2 w-full h-full gap-4">
-          <UCard variant="outline">
-            <template #header>
-              <h2>Vowel Shifts</h2>
-            </template>
-          </UCard>
-          <UCard variant="outline">
-            <template #header>
-              <h2>Consonant Shifts</h2>
-            </template>
-          </UCard>
-          <UCard variant="outline">
-            PANEL 3
-          </UCard>
-          <UCard variant="outline">
-            PANEL 4
-          </UCard>
-        </div>
-        <!-- <UTabs :items="languageConfigTabs" variant="link">
-            <template #trailing>
-                <slot></slot><UCheckbox></UCheckbox>
-            </template>
-            <template #vowelShift>
-                VOWEL SHIFT
-            </template>
-        </UTabs> -->
+        <UCard v-if="currentLanguage" variant="outline">
+          <UTable :columns="tableColumns" :data="currentLanguage.soundShifts" />
+        </UCard>
+        <UEmpty v-else title="No language selected" />
       </template>
     </UDashboardPanel>
   </UDashboardGroup>
