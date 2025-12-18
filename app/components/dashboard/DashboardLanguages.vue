@@ -74,6 +74,13 @@ const onAddLanguage = () => {
     <UDashboardPanel class="h-full min-h-full overflow-hidden">
       <template #body>
         <UCard v-if="languageStore.currentLanguage" variant="outline">
+          <template #header>
+            <div class="flex justify-end">
+              <UButton trailing-icon="i-ion:add-circle-outline" @click="languageStore.addSoundShift()">
+                Add Sound Shift
+              </UButton>
+            </div>
+          </template>
           <UTable :columns="tableColumns" :data="languageStore.currentLanguage.soundShifts" />
         </UCard>
         <UEmpty v-else title="No language selected" />

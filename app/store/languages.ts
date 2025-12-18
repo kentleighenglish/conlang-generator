@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { defineStore } from "pinia";
 
 export type SoundShift = {
-  from: string;
-  to: string;
+  from: string[];
+  to: string[];
   preceding?: string;
   succeeding?: string;
   startOnly?: boolean;
@@ -61,9 +61,29 @@ export const useLanguageStore = defineStore("language", () => {
     saveStoredLanguages();
   };
 
+  const addSoundShift = () => {
+    const soundShifts = [...(currentLanguage.value?.soundShifts || [])];
+
+    soundShifts.push({
+      from: [],
+      to: [],
+    });
+
+    languages.value.map((language) => {
+      if (language.id === currentLanguageId.value) {
+        language.soundShifts = soundShifts;
+      }
+      
+      return language;
+    });
+
+    saveStoredLanguages();
+  };
+
   return {
     languages,
     addLanguage,
+    addSoundShift,
     currentLanguage,
     currentLanguageId,
     setCurrentLanguage,
