@@ -28,7 +28,15 @@ const tableColumns: TableColumn<SoundShift>[] = [
   },
   {
     accessorKey: "from",
-    header: "Language",
+    header: "From",
+  },
+  {
+    accessorKey: "to",
+    header: "To",
+  },
+  {
+    accessorKey: "preceding",
+    header: "Preceding",
   },
 ];
 
@@ -36,6 +44,8 @@ const addLanguageName = ref<string>("");
 const onAddLanguage = () => {
   if (addLanguageName.value) {
     languageStore.addLanguage({ name: addLanguageName.value });
+    addLanguageModalOpen.value = false;
+    addLanguageName.value = "";
   }
 };
 </script>
