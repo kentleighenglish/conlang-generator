@@ -35,7 +35,7 @@ export class OldManergot implements LanguageClass {
       'i': ['i', 'ɪ', 'j'],
       'ä': ['ɛ', 'e'],
       'ö': ['ø', 'œ'],
-      'ü': ['y', 'ʏ']
+      'ü': ['y', 'ʏ'],
     };
 
     c = c.split('').map(char => {
@@ -101,7 +101,7 @@ export class OldManergot implements LanguageClass {
 
     // Clean up impossible clusters
     c = c.replace(/[^aeiouyrlmnŋŋbdgvθðʃçxzfhjptks][^aeiouyrlmnŋbdgvθðʃçxzfhjptks]/g, m =>
-      m[0] + this._randChoice(['a','e','i'], 0.5) + m[1]
+      m[0] + this._randChoice(['a','e','i'], 0.5) + m[1],
     );
 
     // === Final IPA approximation ===

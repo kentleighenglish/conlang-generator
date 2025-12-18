@@ -11,8 +11,8 @@ export async function fetchIPA(input: string, lang: ValidLanguage): Promise<stri
         body: JSON.stringify({
             text: input,
             lang,
-            mode: true
-        })
+            mode: true,
+        }),
     });
 
     const body = await response.json();

@@ -38,7 +38,7 @@ onMounted(() => {
   if (storedActiveTab) {
     activeTab.value = Number(storedActiveTab);
   }
-})
+});
 
 watch(activeTab, (newTab) => {
   const newIndex = dashboardNav.findIndex((tab) => tab.value === newTab);

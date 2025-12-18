@@ -8,20 +8,20 @@ export const useTranslationStore = defineStore("translation", () => {
     const translate = async (translateInput: string) => {
         translations.value[translateInput] = {
             loading: true,
-            items: []
+            items: [],
         };
 
         try {
             const data = await $fetch<TranslateResponse>("/api/translate", {
                 query: {
                     input: translateInput,
-                    lang: "de"
+                    lang: "de",
                 },
             });
     
             translations.value[translateInput] = {
                 loading: false,
-                items: data
+                items: data,
             };
         } catch(e) {
             translations.value[translateInput].loading = false;
@@ -31,6 +31,6 @@ export const useTranslationStore = defineStore("translation", () => {
 
     return {
         translations,
-        translate
+        translate,
     };
 });

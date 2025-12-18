@@ -8,8 +8,8 @@ export default defineNuxtConfig({
     devStorage: {
       translation: {
         driver: "fs",
-        base: "./.cache/translation"
-      }
-    }
-  }
+        base: "./.cache/translation",
+      },
+    },
+  },
 });

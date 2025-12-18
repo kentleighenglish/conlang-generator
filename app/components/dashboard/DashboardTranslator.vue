@@ -25,47 +25,47 @@ const onTranslate = async () => {
 const tableColumns: TableColumn<TranslateResponseItem>[] = [
     {
         id: "title",
-        header: "Language"
+        header: "Language",
     },
     {
         id: 'languageKey',
-        accessorKey: 'languageKey'
+        accessorKey: 'languageKey',
     },
     {
         accessorKey: "original",
-        header: "English"
+        header: "English",
     },
     {
         accessorKey: "rootText",
-        header: "Translated"
+        header: "Translated",
     },
     {
         accessorKey: "rootTextIPA",
-        header: "Translated IPA"
+        header: "Translated IPA",
     },
     {
         accessorKey: "translatedText",
-        header: "Conlang"
+        header: "Conlang",
     },
     {
         accessorKey: "translatedTextIPA",
-        header: "Conlang IPA"
+        header: "Conlang IPA",
     },
     {
         accessorKey: "chaos",
-        header: "Chaos"
+        header: "Chaos",
     },
     {
         accessorKey: "score",
         header: "Score",
         aggregationFn: "sum",
-        aggregatedCell: () => "Hello world"
+        aggregatedCell: () => "Hello world",
     },
 ];
 
 const groupingOptions = ref<GroupingOptions>({
   groupedColumnMode: "remove",
-  getGroupedRowModel: getGroupedRowModel()
+  getGroupedRowModel: getGroupedRowModel(),
 });
 </script>
 <template>
