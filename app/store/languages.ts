@@ -8,7 +8,7 @@ export type SoundShift = {
   succeeding?: string;
   startOnly?: boolean;
   endOnly?: boolean;
-}
+};
 
 type Language = {
   id: string;
@@ -21,10 +21,12 @@ export const useLanguageStore = defineStore("language", () => {
   const languages = ref<Language[]>([]);
   const currentLanguageId = ref<string | null>(null);
 
-  const currentLanguage = computed<Language | undefined>(() => languages.value.find(({ id }) => currentLanguageId.value = id));
+  const currentLanguage = computed<Language | undefined>(() =>
+    languages.value.find(({ id }) => (currentLanguageId.value = id))
+  );
 
   const init = () => {
-    if(window && "localStorage" in window) {
+    if (window && "localStorage" in window) {
       const storedLanguages = localStorage.getItem("languages");
       const storedCurrentLanguage = localStorage.getItem("currentLanguage");
       if (storedLanguages) {
@@ -73,7 +75,7 @@ export const useLanguageStore = defineStore("language", () => {
       if (language.id === currentLanguageId.value) {
         language.soundShifts = soundShifts;
       }
-      
+
       return language;
     });
 

@@ -5,12 +5,20 @@ const activeTab = ref<number>(0); // this is changed by UTabs
 const DashboardLanguages = resolveComponent("DashboardLanguages");
 const DashboardTranslator = resolveComponent("DashboardTranslator");
 
-const Todo = h("div", { class: "w-full h-full p-8" }, h("ul", { class: "list-disc" }, [
-  "Add languages button",
-  "Language store",
-  "Move translations to client",
-  "Save/load languages in localStorage",
-].map(item => h("li", {}, item))));
+const Todo = h(
+  "div",
+  { class: "w-full h-full p-8" },
+  h(
+    "ul",
+    { class: "list-disc" },
+    [
+      "Add languages button",
+      "Language store",
+      "Move translations to client",
+      "Save/load languages in localStorage",
+    ].map((item) => h("li", {}, item))
+  )
+);
 
 const dashboardNav = [
   {
@@ -65,7 +73,11 @@ watch(activeTab, (newTab) => {
       :items="dashboardNav"
       :watch-drag="false"
       class="w-full h-full overflow-hidden"
-      :ui="{ viewport: 'overflow-hidden h-full', container: 'overflow-hidden h-full', item: 'min-w-0 shrink-0 basis-full h-full', }"
+      :ui="{
+        viewport: 'overflow-hidden h-full',
+        container: 'overflow-hidden h-full',
+        item: 'min-w-0 shrink-0 basis-full h-full',
+      }"
     >
       <component :is="item.node" />
     </UCarousel>

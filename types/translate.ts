@@ -1,4 +1,3 @@
-
 export type ValidLanguage = "de" | "ru";
 
 // export interface LanguageClass {
@@ -8,11 +7,11 @@ export type ValidLanguage = "de" | "ru";
 // };
 
 export type Translation = {
-    original: string;
-    translated: string;
-    ipa: string;
-    lang: string;
-    score: number;
+  original: string;
+  translated: string;
+  ipa: string;
+  lang: string;
+  score: number;
 };
 
 // export type Translation = {
