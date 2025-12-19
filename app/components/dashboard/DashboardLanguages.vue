@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import type { NavigationMenuItem, SelectItem, TableColumn } from "@nuxt/ui";
+import type {
+  AcceptableValue,
+  NavigationMenuItem,
+  SelectItem,
+  TableColumn,
+} from "@nuxt/ui";
 import { useLanguageStore, type SoundShift } from "~/store/languages";
-import { ValidLanguages } from "~~/types/translate";
+import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
 const languageStore = useLanguageStore();
 
-const languageOptions: SelectItem[] = Object.values(ValidLanguages);
+const currentLanguage = computed(() => languageStore.currentLanguage);
+
+const languageBaseOptions: Array<SelectItem & { value: string }> = Object.entries(ValidLanguages).map(
+  ([key, lang]) => ({
+    value: key,
+    label: lang.label,
+    icon: lang.icon,
+  } satisfies SelectItem),
+);
 
 const addLanguageModalOpen = ref<boolean>(false);
 const navItems = computed<NavigationMenuItem[]>(() => [
@@ -51,6 +64,13 @@ const onAddLanguage = () => {
     addLanguageName.value = "";
   }
 };
+
+const languageBaseIcon = computed(() => languageBaseOptions.find((item) => (typeof item === "object" && item?.value) === currentLanguage.value?.languageBase)?.icon);
+const onChangeLanguageBase = (newLanguageBase: AcceptableValue | undefined) => {
+  if (newLanguageBase) {
+    languageStore.changeLanguageBase(newLanguageBase as LanguageKey);
+  }
+};
 </script>
 <template>
   <UDashboardGroup
@@ -76,23 +96,34 @@ const onAddLanguage = () => {
     </UDashboardSidebar>
     <UDashboardPanel class="h-full min-h-full overflow-hidden">
       <template #body>
-        <USelect :items="languageOptions" />
-        <UCard v-if="languageStore.currentLanguage" variant="outline">
-          <template #header>
-            <div class="flex justify-end">
-              <UButton
-                trailing-icon="i-ion:add-circle-outline"
-                @click="languageStore.addSoundShift()"
-              >
-                Add Sound Shift
-              </UButton>
-            </div>
-          </template>
-          <UTable
-            :columns="tableColumns"
-            :data="languageStore.currentLanguage.soundShifts"
-          />
-        </UCard>
+        <div v-if="currentLanguage">
+          <UCard variant="outline">
+            <template #header>
+              <div class="flex justify-between">
+                <USelect
+                  :items="languageBaseOptions"
+                  placeholder="Select Base Language"
+                  label="Base Language"
+                  :icon="languageBaseIcon"
+                  :disabled="currentLanguage.soundShifts.length > 0"
+                  :model-value="currentLanguage.languageBase?.toString()"
+                  @update:model-value="onChangeLanguageBase"
+                />
+                <UButton
+                  trailing-icon="i-ion:add-circle-outline"
+                  :disabled="!currentLanguage.languageBase"
+                  @click="languageStore.addSoundShift()"
+                >
+                  Add Sound Shift
+                </UButton>
+              </div>
+            </template>
+            <UTable
+              :columns="tableColumns"
+              :data="currentLanguage.soundShifts"
+            />
+          </UCard>
+        </div>
         <UEmpty v-else title="No language selected" />
       </template>
     </UDashboardPanel>
