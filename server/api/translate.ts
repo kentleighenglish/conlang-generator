@@ -8,7 +8,7 @@ import { fetchIPA } from "../helpers/unalengua";
 import type {
   Translation,
   TranslateResponse,
-  ValidLanguage,
+  LanguageKey,
 } from "../../types/translate";
 
 // type LanguageClassConstructor = new () => LanguageClass;
@@ -19,12 +19,12 @@ import type {
 //     // "Ogma":
 // ];
 
-const languages: ValidLanguage[] = ["de", "ru"];
+const languages: Array<LanguageKey> = ["en", "ru"];
 
 const grabTranslations = cachedFunction(
   async (
     inputWord: string,
-    languages: ValidLanguage[]
+    languages: Array<LanguageKey>,
   ): Promise<Translation[]> => {
     const out = [];
 
@@ -40,7 +40,7 @@ const grabTranslations = cachedFunction(
 
       for (const { word, score } of words) {
         for (const lang of languages) {
-          const response = await translate(word, { from: "en", to: lang });
+          const response = await translate(word, { from: "en", to: lang.toString() });
 
           const ipa = await fetchIPA(response.text, lang);
 
@@ -79,10 +79,10 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
 
   const inputWord = input?.toLowerCase().trim();
 
-  const langKeys = lang.split(",") as ValidLanguage[];
+  const langKeys = lang.split(",") as LanguageKey[];
 
   if (
-    langKeys.filter((key) => !languages.includes(key as ValidLanguage)).length >
+    langKeys.filter((key) => !languages.includes(key as LanguageKey)).length >
     0
   ) {
     throw "Invalid language provided";

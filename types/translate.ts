@@ -1,4 +1,10 @@
-export type ValidLanguage = "de" | "ru";
+export type LanguageKey = "en" | "de" | "ru";
+export type ValidLanguageDef = { label: string, icon: string };
+export const ValidLanguages: Record<LanguageKey, ValidLanguageDef> = {
+  en: { label: "English", icon: "i-emojione:flag-for-united-kingdom"},
+  de: { label: "German", icon: "i-emojione:flag-for-germany" },
+  ru: { label: "Russian", icon: "i-emojione:flag-for-russia" },
+};
 
 // export interface LanguageClass {
 //     name: string;

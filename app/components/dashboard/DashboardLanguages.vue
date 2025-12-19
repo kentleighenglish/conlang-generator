@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import type { NavigationMenuItem, TableColumn } from "@nuxt/ui";
+import type { NavigationMenuItem, SelectItem, TableColumn } from "@nuxt/ui";
 import { useLanguageStore, type SoundShift } from "~/store/languages";
+import { ValidLanguages } from "~~/types/translate";
 
 const languageStore = useLanguageStore();
+
+const languageOptions: SelectItem[] = Object.values(ValidLanguages);
 
 const addLanguageModalOpen = ref<boolean>(false);
 const navItems = computed<NavigationMenuItem[]>(() => [
@@ -24,7 +27,7 @@ const navItems = computed<NavigationMenuItem[]>(() => [
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "index",
-    cell: () => "1",
+    cell: ({ row }) => `#${row.index + 1}`,
   },
   {
     accessorKey: "from",
@@ -73,6 +76,7 @@ const onAddLanguage = () => {
     </UDashboardSidebar>
     <UDashboardPanel class="h-full min-h-full overflow-hidden">
       <template #body>
+        <USelect :items="languageOptions" />
         <UCard v-if="languageStore.currentLanguage" variant="outline">
           <template #header>
             <div class="flex justify-end">
