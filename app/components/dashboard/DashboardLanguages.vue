@@ -37,6 +37,7 @@ const navItems = computed<NavigationMenuItem[]>(() => [
   },
 ]);
 
+const UButton = resolveComponent("UButton");
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "index",
@@ -53,6 +54,13 @@ const tableColumns: TableColumn<SoundShift>[] = [
   {
     accessorKey: "preceding",
     header: "Preceding",
+  },
+  {
+    id: "actions",
+    cell: () => h(UButton, {
+      icon: "i-ion:trash",
+      variant: "ghost",
+    }),
   },
 ];
 

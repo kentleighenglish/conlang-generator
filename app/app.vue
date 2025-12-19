@@ -9,7 +9,9 @@ onMounted(() => {
 </script>
 <template>
   <UApp>
-    <NuxtPage v-if="languageStore.storeInitialized" />
-    <UEmpty v-else title="Loading" class="h-screen" />
+    <NuxtLayout>
+      <NuxtPage v-if="languageStore.storeInitialized" />
+      <UEmpty v-else title="Loading" class="h-screen" />
+    </NuxtLayout>
   </UApp>
 </template>
