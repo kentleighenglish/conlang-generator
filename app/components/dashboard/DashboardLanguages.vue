@@ -57,9 +57,10 @@ const tableColumns: TableColumn<SoundShift>[] = [
   },
   {
     id: "actions",
-    cell: () => h(UButton, {
+    cell: ({ row }) => h(UButton, {
       icon: "i-ion:trash",
       variant: "ghost",
+      onClick: () => languageStore.removeSoundShift(row.original.id),
     }),
   },
 ];
