@@ -75,7 +75,7 @@ watch(activeTab, (newTab) => {
       class="w-full h-full overflow-hidden"
       :ui="{
         viewport: 'overflow-hidden h-full',
-        container: 'overflow-hidden h-full',
+        container: 'h-full',
         item: 'min-w-0 shrink-0 basis-full h-full',
       }"
     >
