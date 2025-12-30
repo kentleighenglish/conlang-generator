@@ -227,6 +227,7 @@ export const vowels: IPAVowel[] = [
 enum ConsonantPlace {
   "bilabial",
   "labioDental",
+  "linguoLabial",
   "dental",
   "alveolar",
   "postAlveolar",
@@ -284,10 +285,11 @@ enum ConsonantManner {
 }
 type IPABaseConsonant = {
   ligature: string;
+  voiced: boolean;
 }
 
 type IPAPulmonicConsonant = IPABaseConsonant & {
-  place: ConsonantPlace.bilabial | ConsonantPlace.labioDental | ConsonantPlace.dental | ConsonantPlace.alveolar | ConsonantPlace.postAlveolar | ConsonantPlace.retroFlex | ConsonantPlace.palatal | ConsonantPlace.velar | ConsonantPlace.pharyngeal | ConsonantPlace.glottal;
+  place: ConsonantPlace.bilabial | ConsonantPlace.labioDental | ConsonantPlace.linguoLabial | ConsonantPlace.dental | ConsonantPlace.alveolar | ConsonantPlace.postAlveolar | ConsonantPlace.retroFlex | ConsonantPlace.palatal | ConsonantPlace.velar | ConsonantPlace.uvular | ConsonantPlace.pharyngeal | ConsonantPlace.glottal;
   manner: ConsonantManner.nasal | ConsonantManner.plosive | ConsonantManner.sibilantAffricate | ConsonantManner.nonSibilantAffricate | ConsonantManner.sibilantFricative | ConsonantManner.nonSibilantFricative | ConsonantManner.approximant | ConsonantManner.flap | ConsonantManner.trill | ConsonantManner.lateralAffricative | ConsonantManner.lateralFricative | ConsonantManner.lateralApproximant | ConsonantManner.lateralFlap;
 }
 
@@ -311,14 +313,480 @@ export const consonants: IPAConsonant[] = [
     ligature: "m̥",
     place: ConsonantPlace.bilabial,
     manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "m",
+    place: ConsonantPlace.bilabial,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "ɱ̊",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "ɱ",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "n̼",
+    place: ConsonantPlace.linguoLabial,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "n̪̊",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "n̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "n̥",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "n",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "n̠̊",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "n̠",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "ɳ̊",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "ɳ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "ɲ̊",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "ɲ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "ŋ̊",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "ŋ",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  {
+    ligature: "ɴ̥",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.nasal,
+    voiced: false,
+  },
+  {
+    ligature: "ɴ",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.nasal,
+    voiced: true,
+  },
+  // PLOSIVES
+  {
+    ligature: "p",
+    place: ConsonantPlace.bilabial,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "b",
+    place: ConsonantPlace.bilabial,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "p̪",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "b̪",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "t̼",
+    place: ConsonantPlace.linguoLabial,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "d̼",
+    place: ConsonantPlace.linguoLabial,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "t̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "d̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "t",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "d",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "ʈ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "ɖ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "c",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "ɟ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "k",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "ɡ",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "q",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "ɢ",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.plosive,
+    voiced: true,
+  },
+  {
+    ligature: "ʡ",
+    place: ConsonantPlace.pharyngeal,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  {
+    ligature: "ʔ",
+    place: ConsonantPlace.glottal,
+    manner: ConsonantManner.plosive,
+    voiced: false,
+  },
+  // Sibilant affricate
+  {
+    ligature: "t̪s̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "d̪z̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "ts",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "dz",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "t̠ʃ",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "d̠ʒ",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "tʂ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "dʐ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "tɕ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "dʑ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.sibilantAffricate,
+    voiced: true,
+  },
+  // Non-sibilant affricate
+  {
+    ligature: "pɸ",
+    place: ConsonantPlace.bilabial,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "bβ",
+    place: ConsonantPlace.bilabial,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "p̪f",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "b̪v",
+    place: ConsonantPlace.labioDental,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "t̪θ",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "d̪ð",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "tɹ̝̊",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "dɹ̝",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "t̠ɹ̠̊˔",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "d̠ɹ̠˔",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "cç",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "ɟʝ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "kx",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "ɡɣ",
+    place: ConsonantPlace.velar,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "qχ",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "ɢʁ",
+    place: ConsonantPlace.uvular,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "ʡʜ",
+    place: ConsonantPlace.pharyngeal,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  {
+    ligature: "ʡʢ",
+    place: ConsonantPlace.pharyngeal,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: true,
+  },
+  {
+    ligature: "ʔh",
+    place: ConsonantPlace.glottal,
+    manner: ConsonantManner.nonSibilantAffricate,
+    voiced: false,
+  },
+  // Non-sibilant fricatives
+  {
+    ligature: "s̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: false,
+  },
+  {
+    ligature: "z̪",
+    place: ConsonantPlace.dental,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: true,
+  },
+  {
+    ligature: "s",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: false,
+  },
+  {
+    ligature: "z",
+    place: ConsonantPlace.alveolar,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: true,
+  },
+  {
+    ligature: "ʃ",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: false,
+  },
+  {
+    ligature: "ʒ",
+    place: ConsonantPlace.postAlveolar,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: true,
+  },
+  {
+    ligature: "ʂ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: false,
+  },
+  {
+    ligature: "ʐ",
+    place: ConsonantPlace.retroFlex,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: true,
+  },
+  {
+    ligature: "ɕ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: false,
+  },
+  {
+    ligature: "ʑ",
+    place: ConsonantPlace.palatal,
+    manner: ConsonantManner.sibilantFricative,
+    voiced: true,
   },
 ];
 
 
-// Plosive	p	b	p̪	b̪	t̼	d̼	t̪	d̪	t	d			ʈ	ɖ	c	ɟ	k	ɡ	q	ɢ	ʡ		ʔ	
-// Sibilant affricate							t̪s̪	d̪z̪	ts	dz	t̠ʃ	d̠ʒ	tʂ	dʐ	tɕ	dʑ								
-// Non-sibilant affricate	pɸ	bβ	p̪f	b̪v			t̪θ	d̪ð	tɹ̝̊	dɹ̝	t̠ɹ̠̊˔	d̠ɹ̠˔			cç	ɟʝ	kx	ɡɣ	qχ	ɢʁ	ʡʜ	ʡʢ	ʔh	
-// Sibilant fricative							s̪	z̪	s	z	ʃ	ʒ	ʂ	ʐ	ɕ	ʑ								
+
+
+							
 // Non-sibilant fricative	ɸ	β	f	v	θ̼	ð̼	θ	ð	θ̠	ð̠	ɹ̠̊˔	ɹ̠˔	ɻ̊˔	ɻ˔	ç	ʝ	x	ɣ	χ	ʁ	ħ	ʕ	h	ɦ
 // Approximant		β̞		ʋ				ð̞		ɹ		ɹ̠		ɻ		j		ɰ						˷
 // Tap/flap		ⱱ̟		ⱱ					ɾ̥	ɾ			ɽ̊	ɽ						ɢ̆		ʡ̮		
