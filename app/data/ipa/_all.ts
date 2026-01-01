@@ -742,7 +742,7 @@ export const getVowelCollection = (...selection: string[]) => selection.map((sel
 export const getConsonantCollection = (...selection: string[]) => selection.map((selectionLigature) => {
   const found = consonants.find((consonant) => consonant.ligature === selectionLigature);
   if (!found) {
-    console.error(`Cannot find vowel for ${selectionLigature}`);
+    console.error(`Cannot find consonant for ${selectionLigature}`);
   }
   return found;
 });
