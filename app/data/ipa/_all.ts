@@ -230,7 +230,7 @@ enum ConsonantPlace {
   "linguolabial",
   "dental",
   "alveolar",
-  "postalveolar",
+  "postAlveolar",
   "retroflex",
   "alveoloPalatal",
   "palatal",
@@ -264,6 +264,7 @@ enum ConsonantFeature {
   "lateral",
   "nasalized",
   "tenuis",
+  "raised",
 }
 
 enum ConsonantCategory {
@@ -322,10 +323,10 @@ export const consonants: Consonant[] = [
   { ligature: "ð", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.dental], manner: ConsonantManner.fricative, voiced: true, features: [] },
   { ligature: "θ̠", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.fricative, voiced: false, features: [] },
   { ligature: "ð̠", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.fricative, voiced: true, features: [] },
-  { ligature: "ɹ̠̊˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.fricative, voiced: false, features: [] },
-  { ligature: "ɹ̠˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.fricative, voiced: true, features: [] },
-  { ligature: "ɻ̊˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: false, features: [] },
-  { ligature: "ɻ˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: true, features: [] },
+  { ligature: "ɹ̠̊", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.raised] },
+  { ligature: "ɹ̠", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.raised] },
+  { ligature: "ɻ̊", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.raised] },
+  { ligature: "ɻ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.raised] },
   { ligature: "ç", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.fricative, voiced: false, features: [] },
   { ligature: "ʝ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.fricative, voiced: true, features: [] },
   { ligature: "x", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.fricative, voiced: false, features: [] },
@@ -338,8 +339,8 @@ export const consonants: Consonant[] = [
   { ligature: "ɦ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.glottal], manner: ConsonantManner.fricative, voiced: true, features: [] },
   { ligature: "s", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.sibilant] },
   { ligature: "z", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.sibilant] },
-  { ligature: "ʃ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.sibilant] },
-  { ligature: "ʒ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.sibilant] },
+  { ligature: "ʃ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.sibilant] },
+  { ligature: "ʒ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.sibilant] },
   { ligature: "ʂ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.sibilant] },
   { ligature: "ʐ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.fricative, voiced: true, features: [ConsonantFeature.sibilant] },
   { ligature: "ɕ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveoloPalatal], manner: ConsonantManner.fricative, voiced: false, features: [ConsonantFeature.sibilant] },
@@ -382,8 +383,8 @@ export const consonants: Consonant[] = [
   { ligature: "d̪ð", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.dental], manner: ConsonantManner.affricate, voiced: true, features: [] },
   { ligature: "tɹ̝̊", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.affricate, voiced: false, features: [] },
   { ligature: "dɹ̝", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.affricate, voiced: true, features: [] },
-  { ligature: "t̠ɹ̠̊˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.affricate, voiced: false, features: [] },
-  { ligature: "d̠ɹ̠˔", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.affricate, voiced: true, features: [] },
+  { ligature: "t̠ɹ̠̊", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.raised] },
+  { ligature: "d̠ɹ̠", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.affricate, voiced: true, features: [ConsonantFeature.raised] },
   { ligature: "cç", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.affricate, voiced: false, features: [] },
   { ligature: "ɟʝ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.affricate, voiced: true, features: [] },
   { ligature: "kx", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.affricate, voiced: false, features: [] },
@@ -395,8 +396,8 @@ export const consonants: Consonant[] = [
   { ligature: "ʔh", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.glottal], manner: ConsonantManner.affricate, voiced: false, features: [] },
   { ligature: "t͡s", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.sibilant] },
   { ligature: "d͡z", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.affricate, voiced: true, features: [ConsonantFeature.sibilant] },
-  { ligature: "t͡ʃ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.sibilant] },
-  { ligature: "d͡ʒ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postalveolar], manner: ConsonantManner.affricate, voiced: true, features: [ConsonantFeature.sibilant] },
+  { ligature: "t͡ʃ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.sibilant] },
+  { ligature: "d͡ʒ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.postAlveolar], manner: ConsonantManner.affricate, voiced: true, features: [ConsonantFeature.sibilant] },
   { ligature: "t͡ʂ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.sibilant] },
   { ligature: "d͡ʐ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.affricate, voiced: true, features: [ConsonantFeature.sibilant] },
   { ligature: "t͡ɕ", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.alveoloPalatal], manner: ConsonantManner.affricate, voiced: false, features: [ConsonantFeature.sibilant] },
@@ -411,12 +412,12 @@ export const consonants: Consonant[] = [
   { ligature: "ɡʟ̝", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.lateralAffricate, voiced: true, features: [ConsonantFeature.lateral] },
 
   // Non-pulmonic consonants
-  { ligature: "pʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.ejective, voiced: false, features: [] },
-  { ligature: "tʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [] },
-  { ligature: "kʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.ejective, voiced: false, features: [] },
-  { ligature: "ʈʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.ejective, voiced: false, features: [] },
-  { ligature: "cʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.ejective, voiced: false, features: [] },
-  { ligature: "qʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.uvular], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "p", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "t", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "k", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "ʈ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "c", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "q", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.uvular], manner: ConsonantManner.ejective, voiced: false, features: [] },
   { ligature: "ɓ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.implosive, voiced: true, features: [] },
   { ligature: "ɗ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.implosive, voiced: true, features: [] },
   { ligature: "ᶑ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.retroflex], manner: ConsonantManner.implosive, voiced: true, features: [] },
@@ -428,7 +429,7 @@ export const consonants: Consonant[] = [
   { ligature: "ǃ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.click, voiced: false, features: [] },
   { ligature: "ǂ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.click, voiced: false, features: [] },
   { ligature: "ǁ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.click, voiced: false, features: [ConsonantFeature.lateral] },
-  { ligature: "ɬʼ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [ConsonantFeature.lateral] },
+  { ligature: "ɬ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [ConsonantFeature.lateral] },
 
   // Examples of nasal clicks (sharing 'click' manner with nasal feature)
   { ligature: "ŋʘ", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.click, voiced: true, features: [ConsonantFeature.nasalized] },
@@ -451,5 +452,13 @@ export const consonants: Consonant[] = [
   { ligature: "ɫ", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.alveolar, ConsonantPlace.velar], manner: ConsonantManner.lateralApproximant, voiced: true, features: [ConsonantFeature.lateral] },
   { ligature: "ɠ̊͜ɓ̥", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.velar], manner: ConsonantManner.implosive, voiced: false, features: [] },
   { ligature: "ɠ͡ɓ", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.velar], manner: ConsonantManner.implosive, voiced: true, features: [] },
-  { ligature: "t͡pʼ", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [] },
+  { ligature: "t͡p", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voiced: false, features: [] },
 ];
+
+export const getVowelCollection = (...selection: string[]) => vowels.filter((vowel) => {
+  return selection.includes(vowel.ligature);
+});
+
+export const getConsonantCollection = (...selection: string[]) => consonants.filter((consonant) => {
+  return selection.includes(consonant.ligature);
+});
