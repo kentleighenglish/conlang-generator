@@ -731,10 +731,18 @@ export const consonants: Consonant[] = [
   { ligature: "t͡p", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voicing: ConsonantVoicing.voiceless, features: [] },
 ];
 
-export const getVowelCollection = (...selection: string[]) => vowels.filter((vowel) => {
-  return selection.includes(vowel.ligature);
+export const getVowelCollection = (...selection: string[]) => selection.map((selectionLigature) => {
+  const found = vowels.find((vowel) => vowel.ligature === selectionLigature);
+  if (!found) {
+    console.error(`Cannot find vowel for ${selectionLigature}`);
+  }
+  return found;
 });
 
-export const getConsonantCollection = (...selection: string[]) => consonants.filter((consonant) => {
-  return selection.includes(consonant.ligature);
+export const getConsonantCollection = (...selection: string[]) => selection.map((selectionLigature) => {
+  const found = consonants.find((consonant) => consonant.ligature === selectionLigature);
+  if (!found) {
+    console.error(`Cannot find vowel for ${selectionLigature}`);
+  }
+  return found;
 });
