@@ -1,2 +1,3 @@
-export * as english from "./english";
+export * as en from "./en";
+export * as de from "./de";
 export * as all from "./_all";
