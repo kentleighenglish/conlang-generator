@@ -549,7 +549,7 @@ enum ConsonantVoicing {
   "voiceless"
 }
 
-interface Consonant {
+interface IPAConsonant {
   ligature: string;
   category: ConsonantCategory;
   places: ConsonantPlace[];
@@ -558,7 +558,7 @@ interface Consonant {
   features: ConsonantFeature[];
 }
 
-export const consonants: Consonant[] = [
+export const consonants: IPAConsonant[] = [
   // Pulmonic consonants
   { ligature: "p", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.plosive, voicing: ConsonantVoicing.voiceless, features: [] },
   { ligature: "b", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.plosive, voicing: ConsonantVoicing.voiced, features: [] },
@@ -731,18 +731,16 @@ export const consonants: Consonant[] = [
   { ligature: "t͡p", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voicing: ConsonantVoicing.voiceless, features: [] },
 ];
 
-export const getVowelCollection = (...selection: string[]) => selection.map((selectionLigature) => {
-  const found = vowels.find((vowel) => vowel.ligature === selectionLigature);
+const filterCollection = <T extends IPAConsonant | IPAVowel>(selection: string[], collection: T[]) => selection.reduce((acc: T[], selectionLigature) => {
+  const found = collection.find((ipa) => ipa.ligature === selectionLigature);
   if (!found) {
     console.error(`Cannot find vowel for ${selectionLigature}`);
+  } else {
+    acc.push(found);
   }
-  return found;
-});
+  return acc;
+}, [] as T[]);
 
-export const getConsonantCollection = (...selection: string[]) => selection.map((selectionLigature) => {
-  const found = consonants.find((consonant) => consonant.ligature === selectionLigature);
-  if (!found) {
-    console.error(`Cannot find consonant for ${selectionLigature}`);
-  }
-  return found;
-});
+export const getVowelCollection = (...selection: string[]): IPAVowel[] => filterCollection<IPAVowel>(selection, vowels);
+
+export const getConsonantCollection = (...selection: string[]): IPAConsonant[] => filterCollection<IPAConsonant>(selection, consonants);
