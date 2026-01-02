@@ -66,3 +66,7 @@ export const consonants = getConsonantCollection(
   "zj",
   "ʒ",
 );
+
+export const stresses = ["ˈ", "ˌ"];
+
+export const syllabifications = ["."];
