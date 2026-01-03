@@ -53,7 +53,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
     header: "From",
     cell: ({ row }) => h(SelectSound, {
       onUpdate: (e: string[]) => updateSoundShift(row.original.id, { from: e }),
-    }, []),
+    }),
   },
   {
     accessorKey: "to",

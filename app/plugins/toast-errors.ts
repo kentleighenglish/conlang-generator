@@ -9,9 +9,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
     const { statusMessage, message, data } = castErr;
 
+    let errMessage = message;
+    if (data && data?.message) {
+      errMessage = data.message;
+    }
+    console.error(err);
+
     toast.add({
       title: statusMessage,
-      description: (data as { message: string }).message ?? message,
+      description: errMessage,
       color: "error",
     });
   });

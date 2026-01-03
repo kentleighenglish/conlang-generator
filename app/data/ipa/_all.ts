@@ -20,7 +20,7 @@ enum VowelRounding {
   "undefined",
 }
 
-type IPAVowel = {
+export type IPAVowel = {
   ligature: string;
   tonguePos: VowelTonguePosition;
   tongueHeight: VowelTongueHeight;
@@ -838,7 +838,7 @@ enum ConsonantVoicing {
   "voiceless",
 }
 
-interface IPAConsonant {
+export type IPAConsonant = {
   ligature: string;
   category: ConsonantCategory;
   places: ConsonantPlace[];
