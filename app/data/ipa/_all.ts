@@ -493,6 +493,294 @@ export const vowels: IPAVowel[] = [
     rounded: VowelRounding.rounded,
     long: true,
   },
+// Closing diphthongs (common in English)
+  {
+    ligature: "aɪ",
+    tonguePos: VowelTonguePosition.front, // starts open front, glides to close front
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "aʊ",
+    tonguePos: VowelTonguePosition.front, // starts open front/back, glides to near-close back
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "eɪ",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "oʊ",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "ɔɪ",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+
+  // German diphthong
+  {
+    ligature: "ɔʏ",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+
+  // R-colored / rhotic vowels (common in rhotic English accents like General American)
+  {
+    ligature: "ɑːr",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: true,
+  },
+  {
+    ligature: "ɒr",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "ær",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.nearOpen,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɛr",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɪr",
+    tonguePos: VowelTonguePosition.nearFront,
+    tongueHeight: VowelTongueHeight.nearClose,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɔːr",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: true,
+  },
+  {
+    ligature: "ʊr",
+    tonguePos: VowelTonguePosition.back, // near back
+    tongueHeight: VowelTongueHeight.nearClose,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "ɜːr",
+    tonguePos: VowelTonguePosition.central,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: true,
+  },
+  {
+    ligature: "ʌr",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+
+  // Centering diphthongs + r (common in non-rhotic accents like RP, or triphthongs)
+  {
+    ligature: "aɪər",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "aʊər",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɛər",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɪər",
+    tonguePos: VowelTonguePosition.nearFront,
+    tongueHeight: VowelTongueHeight.nearClose,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɔɪər",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+{
+    ligature: "ʊər",
+    tonguePos: VowelTonguePosition.back, // starts near-close back rounded
+    tongueHeight: VowelTongueHeight.nearClose,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+
+  // Simple schwa + r
+  {
+    ligature: "ər",
+    tonguePos: VowelTonguePosition.central,
+    tongueHeight: VowelTongueHeight.mid,
+    rounded: VowelRounding.undefined,
+    long: false,
+  },
+
+  // Non-syllabic / glide vowels (approximants)
+  {
+    ligature: "ɐ̯",
+    tonguePos: VowelTonguePosition.central,
+    tongueHeight: VowelTongueHeight.nearOpen,
+    rounded: VowelRounding.undefined,
+    long: false,
+  },
+  {
+    ligature: "r",
+    tonguePos: VowelTonguePosition.central, // approximant, not vowel – placeholder
+    tongueHeight: VowelTongueHeight.mid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "o̯",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "u̯",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.close,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "y̑", // non-standard, perhaps for nasalized rounded front
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.close,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "øːr",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.rounded,
+    long: true,
+  },
+
+  // Nasal vowels (common in French)
+  {
+    ligature: "ãː",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: true,
+  },
+  {
+    ligature: "ɛ̃ː",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: true,
+  },
+  {
+    ligature: "õː",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.rounded,
+    long: true,
+  },
+  {
+    ligature: "œ̃ː",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: true,
+  },
+  {
+    ligature: "ã",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.open,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɛ̃",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "õ",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.closeMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "œ̃",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+
+  // Diphthong variants
+  {
+    ligature: "ɛɪ",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.unrounded,
+    long: false,
+  },
+  {
+    ligature: "ɔʊ",
+    tonguePos: VowelTonguePosition.back,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: false,
+  },
+  {
+    ligature: "œːɐ̯",
+    tonguePos: VowelTonguePosition.front,
+    tongueHeight: VowelTongueHeight.openMid,
+    rounded: VowelRounding.rounded,
+    long: true,
+  },
 ];
 
 enum ConsonantPlace {
@@ -536,17 +824,19 @@ enum ConsonantFeature {
   "nasalized",
   "tenuis",
   "raised",
+  "palatalized",
+  "syllabic",
 }
 
 enum ConsonantCategory {
   "pulmonic",
   "nonPulmonic",
-  "coArticulated"
+  "coArticulated",
 }
 
 enum ConsonantVoicing {
   "voiced",
-  "voiceless"
+  "voiceless",
 }
 
 interface IPAConsonant {
@@ -686,6 +976,136 @@ export const consonants: IPAConsonant[] = [
   { ligature: "ɟʎ̝", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.palatal], manner: ConsonantManner.lateralAffricate, voicing: ConsonantVoicing.voiced, features: [ConsonantFeature.lateral] },
   { ligature: "k𝼄", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.lateralAffricate, voicing: ConsonantVoicing.voiceless, features: [ConsonantFeature.lateral] },
   { ligature: "ɡʟ̝", category: ConsonantCategory.pulmonic, places: [ConsonantPlace.velar], manner: ConsonantManner.lateralAffricate, voicing: ConsonantVoicing.voiced, features: [ConsonantFeature.lateral] },
+  {
+    ligature: "dj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.plosive,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.palatalized],
+  },
+  {
+    ligature: "ɡ",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.velar],
+    manner: ConsonantManner.plosive,
+    voicing: ConsonantVoicing.voiced,
+    features: [],
+  },
+  {
+    ligature: "hw",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.velar], // often treated as labialized h, but commonly ʍ
+    manner: ConsonantManner.fricative,
+    voicing: ConsonantVoicing.voiceless,
+    features: [],
+  },
+  {
+    ligature: "lj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.lateralApproximant,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.palatalized, ConsonantFeature.lateral],
+  },
+  {
+    ligature: "nj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.nasal,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.palatalized],
+  },
+  {
+    ligature: "sj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.fricative,
+    voicing: ConsonantVoicing.voiceless,
+    features: [ConsonantFeature.sibilant, ConsonantFeature.palatalized],
+  },
+  {
+    ligature: "tj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.plosive,
+    voicing: ConsonantVoicing.voiceless,
+    features: [ConsonantFeature.palatalized],
+  },
+  {
+    ligature: "tʃ",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.postAlveolar],
+    manner: ConsonantManner.affricate,
+    voicing: ConsonantVoicing.voiceless,
+    features: [ConsonantFeature.sibilant],
+  },
+  {
+    ligature: "θj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.dental],
+    manner: ConsonantManner.fricative,
+    voicing: ConsonantVoicing.voiceless,
+    features: [ConsonantFeature.palatalized],
+  },
+  {
+    ligature: "zj",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.fricative,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.sibilant, ConsonantFeature.palatalized],
+  },
+  // Duplicate ɡ omitted or kept if intentional
+  {
+    ligature: "l̩",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.lateralApproximant,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.lateral, ConsonantFeature.syllabic],
+  },
+  {
+    ligature: "m̩",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.bilabial],
+    manner: ConsonantManner.nasal,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.syllabic],
+  },
+  {
+    ligature: "n̩",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.nasal,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.syllabic],
+  },
+  {
+    ligature: "pf",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.bilabial, ConsonantPlace.labiodental],
+    manner: ConsonantManner.affricate,
+    voicing: ConsonantVoicing.voiceless,
+    features: [],
+  },
+  {
+    ligature: "ts",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.alveolar],
+    manner: ConsonantManner.affricate,
+    voicing: ConsonantVoicing.voiceless,
+    features: [ConsonantFeature.sibilant],
+  },
+  // Duplicate tʃ omitted or kept
+  {
+    ligature: "dʒ",
+    category: ConsonantCategory.pulmonic,
+    places: [ConsonantPlace.postAlveolar],
+    manner: ConsonantManner.affricate,
+    voicing: ConsonantVoicing.voiced,
+    features: [ConsonantFeature.sibilant],
+  },
 
   // Non-pulmonic consonants
   { ligature: "p", category: ConsonantCategory.nonPulmonic, places: [ConsonantPlace.bilabial], manner: ConsonantManner.ejective, voicing: ConsonantVoicing.voiceless, features: [] },
@@ -731,16 +1151,16 @@ export const consonants: IPAConsonant[] = [
   { ligature: "t͡p", category: ConsonantCategory.coArticulated, places: [ConsonantPlace.labiodental, ConsonantPlace.alveolar], manner: ConsonantManner.ejective, voicing: ConsonantVoicing.voiceless, features: [] },
 ];
 
-const filterCollection = <T extends IPAConsonant | IPAVowel>(selection: string[], collection: T[]) => selection.reduce((acc: T[], selectionLigature) => {
+const filterCollection = <T extends IPAConsonant | IPAVowel>(selection: string[], collection: T[], ipaType: string) => selection.reduce((acc: T[], selectionLigature) => {
   const found = collection.find((ipa) => ipa.ligature === selectionLigature);
   if (!found) {
-    console.error(`Cannot find vowel for ${selectionLigature}`);
+    console.error(`Cannot find ${ipaType} for ${selectionLigature}`);
   } else {
     acc.push(found);
   }
   return acc;
 }, [] as T[]);
 
-export const getVowelCollection = (...selection: string[]): IPAVowel[] => filterCollection<IPAVowel>(selection, vowels);
+export const getVowelCollection = (...selection: string[]): IPAVowel[] => filterCollection<IPAVowel>(selection, vowels, "vowel");
 
-export const getConsonantCollection = (...selection: string[]): IPAConsonant[] => filterCollection<IPAConsonant>(selection, consonants);
+export const getConsonantCollection = (...selection: string[]): IPAConsonant[] => filterCollection<IPAConsonant>(selection, consonants, "consonant");

@@ -37,7 +37,12 @@ const navItems = computed<NavigationMenuItem[]>(() => [
   },
 ]);
 
+const updateSoundShift = (id: string, updateObj: Partial<SoundShift>) => {
+  console.log(id, updateObj);
+};
+
 const UButton = resolveComponent("UButton");
+const SelectSound = resolveComponent("TableSelectSound");
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "index",
@@ -46,6 +51,9 @@ const tableColumns: TableColumn<SoundShift>[] = [
   {
     accessorKey: "from",
     header: "From",
+    cell: ({ row }) => h(SelectSound, {
+      onUpdate: (e: string[]) => updateSoundShift(row.original.id, { from: e }),
+    }, []),
   },
   {
     accessorKey: "to",

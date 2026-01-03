@@ -45,6 +45,9 @@ onMounted(() => {
   const storedActiveTab = localStorage.getItem("activeTab");
   if (storedActiveTab) {
     activeTab.value = Number(storedActiveTab);
+    setTimeout(() => {
+      tabCarousel.value?.emblaApi?.scrollTo(activeTab.value, true);
+    }, 100);
   }
 });
 
