@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import * as ipa from "~/data/ipa";
-import { useLanguageStore } from "~/store/languages";
 import type { LanguageKey } from "~~/types/translate";
 
-const languageStore = useLanguageStore();
+const { lang } = defineProps<{
+  lang: LanguageKey | undefined,
+}>();
 
-const currentLanguage = computed(() => languageStore.currentLanguage);
+
+const model = defineModel<string>("");
+const emit = defineEmits(["update:modelValue"]);
 
 const ipaLanguages: Record<LanguageKey, ipa.IPALanguage> = {
   en: ipa.en,
@@ -14,21 +17,32 @@ const ipaLanguages: Record<LanguageKey, ipa.IPALanguage> = {
 };
 
 const currentIPA = computed(() => {
-  if (currentLanguage.value && currentLanguage.value.languageBase) {
-    return ipaLanguages[currentLanguage.value.languageBase];
+  if (lang) {
+    return ipaLanguages[lang];
   }
 
   return ipa.all;
 });
 
+const allOptions = computed(() => [
+  ...currentIPA.value.vowels.map((vowel) => vowel.ligature),
+  ...currentIPA.value.consonants.map((consonant) => consonant.ligature),
+].map((ligature) => ({ label: ligature, value: ligature })));
 </script>
 <template>
   <div>
-    <UModal>
+    <!-- <UModal> // @todo create IPA table for vowels and consonants the user can choose from
       <UButton variant="outline" size="sm" rounded icon="i-lucide:pencil" />
       <template #body>
         This is a modal
       </template>
-    </UModal>
+    </UModal> -->
+    <USelect
+      :model-value="model"
+      :items="allOptions"
+      placeholder="Select Sound"
+      label="Base Language"
+      @update:model-value="emit('update:modelValue', $event)"
+    />
   </div>
 </template>
