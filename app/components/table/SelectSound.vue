@@ -7,13 +7,14 @@ const { lang } = defineProps<{
 }>();
 
 
-const model = defineModel<string>("");
-const emit = defineEmits(["update:modelValue"]);
+const model = defineModel<string>();
+
+const onInput = (value: string) => model.value = value;
 
 const ipaLanguages: Record<LanguageKey, ipa.IPALanguage> = {
   en: ipa.en,
   de: ipa.de,
-  ru: ipa.de, // @todo change this
+  ru: ipa.de, // @todo change this to actual russian
 };
 
 const currentIPA = computed(() => {
@@ -42,7 +43,7 @@ const allOptions = computed(() => [
       :items="allOptions"
       placeholder="Select Sound"
       label="Base Language"
-      @update:model-value="emit('update:modelValue', $event)"
+      @update:model-value="onInput"
     />
   </div>
 </template>

@@ -51,9 +51,9 @@ const tableColumns: TableColumn<SoundShift>[] = [
   {
     accessorKey: "from",
     header: "From",
-    cell: ({ row }) => h(SelectSound, {
+    cell: ({ row, cell }) => h(SelectSound, {
       lang: currentLanguage.value?.languageBase,
-      "modelValue": row.getValue("from"),
+      modelValue: cell.getValue(),
       "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { from: value }),
     }),
   },
