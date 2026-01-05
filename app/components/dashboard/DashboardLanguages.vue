@@ -60,6 +60,11 @@ const tableColumns: TableColumn<SoundShift>[] = [
   {
     accessorKey: "to",
     header: "To",
+    cell: ({ row, cell }) => h(SelectSound, {
+      lang: currentLanguage.value?.languageBase,
+      modelValue: cell.getValue(),
+      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { to: value }),
+    }),
   },
   {
     accessorKey: "preceding",
