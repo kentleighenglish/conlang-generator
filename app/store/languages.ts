@@ -4,8 +4,8 @@ import type { LanguageKey } from "~~/types/translate";
 
 export type SoundShift = {
   id: string;
-  from: string[];
-  to: string[];
+  from: string | null;
+  to: string | null;
   preceding?: string;
   succeeding?: string;
   startOnly?: boolean;
@@ -25,7 +25,7 @@ export const useLanguageStore = defineStore("language", () => {
   const currentLanguageId = ref<string | null>(null);
 
   const currentLanguage = computed<Language | undefined>(() =>
-    languages.value.find(({ id }) => (currentLanguageId.value = id))
+    languages.value.find(({ id }) => (currentLanguageId.value = id)),
   );
 
   const init = () => {
@@ -84,8 +84,8 @@ export const useLanguageStore = defineStore("language", () => {
 
     soundShifts.push({
       id: uuidv4(),
-      from: [],
-      to: [],
+      from: null,
+      to: null,
     });
 
     languages.value.map((language) => {
@@ -113,12 +113,36 @@ export const useLanguageStore = defineStore("language", () => {
     saveStoredLanguages();
   };
 
+
+  const updateSoundShift = (id: string, updated: Partial<SoundShift>) => {
+    const soundShifts = [...(currentLanguage.value?.soundShifts || [])];
+
+    languages.value.map((language) => {
+      if (language.id === currentLanguageId.value) {
+        language.soundShifts = soundShifts.map((soundShift) => {
+          if (soundShift.id === id) {
+            return {
+              ...soundShift,
+              ...updated,
+            };
+          }
+          return soundShift;
+        });
+      }
+
+      return language;
+    });
+
+    saveStoredLanguages();
+  };
+
   return {
     languages,
     addLanguage,
     changeLanguageBase,
     addSoundShift,
     removeSoundShift,
+    updateSoundShift,
     currentLanguage,
     currentLanguageId,
     setCurrentLanguage,

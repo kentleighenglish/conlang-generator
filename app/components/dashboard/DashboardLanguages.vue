@@ -38,7 +38,7 @@ const navItems = computed<NavigationMenuItem[]>(() => [
 ]);
 
 const updateSoundShift = (id: string, updateObj: Partial<SoundShift>) => {
-  console.log(id, updateObj);
+  languageStore.updateSoundShift(id, updateObj);
 };
 
 const UButton = resolveComponent("UButton");
@@ -52,7 +52,9 @@ const tableColumns: TableColumn<SoundShift>[] = [
     accessorKey: "from",
     header: "From",
     cell: ({ row }) => h(SelectSound, {
-      onUpdate: (e: string[]) => updateSoundShift(row.original.id, { from: e }),
+      lang: currentLanguage.value?.languageBase,
+      "modelValue": row.getValue("from"),
+      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { from: value }),
     }),
   },
   {
