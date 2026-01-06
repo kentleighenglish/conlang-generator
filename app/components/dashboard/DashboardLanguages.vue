@@ -42,6 +42,9 @@ const updateSoundShift = (id: string, updateObj: Partial<SoundShift>) => {
 };
 
 const UButton = resolveComponent("UButton");
+const UTooltip = resolveComponent("UTooltip");
+const USlider = resolveComponent("USlider");
+const UIcon = resolveComponent("UIcon");
 const SelectSound = resolveComponent("TableSelectSound");
 const tableColumns: TableColumn<SoundShift>[] = [
   {
@@ -69,6 +72,23 @@ const tableColumns: TableColumn<SoundShift>[] = [
   {
     accessorKey: "preceding",
     header: "Preceding",
+  },
+  {
+    accessorKey: "chaos",
+    header: () => h("div", { class: "flex gap-1" }, [
+      "Occurrence",
+      h(UTooltip, {
+        class: "cursor-pointer",
+        text: "This determines how often this shift should occur, lower rates require higher chaos.",
+      }, h(UIcon, { name: "i-ion-help-circle-outline", class: "size-4" })),
+    ]),
+    cell: ({ row, cell }) => h(USlider, {
+      min: 0,
+      max: 1,
+      step: 0.1,
+      modelValue: cell.getValue(),
+      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { chaos: Number(value) }),
+    }),
   },
   {
     id: "actions",
