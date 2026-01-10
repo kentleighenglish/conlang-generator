@@ -13,7 +13,7 @@ export type SoundShift = {
   endOnly?: boolean;
 };
 
-type Language = {
+export type Language = {
   id: string;
   name: string;
   languageBase: LanguageKey | null;
@@ -26,7 +26,7 @@ export const useLanguageStore = defineStore("language", () => {
   const currentLanguageId = ref<string | null>(null);
 
   const currentLanguage = computed<Language | undefined>(() =>
-    languages.value.find(({ id }) => (currentLanguageId.value = id)),
+    languages.value.find(({ id }) => currentLanguageId.value === id),
   );
 
   const init = () => {
