@@ -2287,7 +2287,7 @@ export const consonants: IPAConsonant[] = [
 const filterCollection = <T extends IPAConsonant | IPAVowel>(
   selection: string[],
   collection: T[],
-  ipaType: string
+  ipaType: string,
 ) =>
   selection.reduce((acc: T[], selectionLigature) => {
     const found = collection.find((ipa) => ipa.ligature === selectionLigature);

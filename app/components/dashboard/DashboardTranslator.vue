@@ -17,7 +17,7 @@ const data = computed(
     translationStore.translations[loadedTranslateInput.value] || {
       loading: false,
       items: [],
-    }
+    },
 );
 
 const onTranslate = async () => {

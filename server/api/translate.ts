@@ -63,12 +63,12 @@ const grabTranslations = cachedFunction(
     maxAge: 60 * 60,
     name: "translation",
     getKey: (input: string) => `translation:${input}`,
-  }
+  },
 );
 
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
   const { input = null, lang } = getQuery<{ input: string; lang: string }>(
-    event
+    event,
   );
 
   if (!input) {

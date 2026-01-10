@@ -51,7 +51,7 @@ export class OldManergot implements LanguageClass {
     // Diphthong explosion
     if (Math.random() < chaos * 0.8) {
       c = c.replace(/[aeiouy]/g, (m) =>
-        this._randChoice(["ai", "au", "oi", "ei", "ou", "ui", m], chaos * 0.7)
+        this._randChoice(["ai", "au", "oi", "ei", "ou", "ui", m], chaos * 0.7),
       );
     }
 
@@ -113,7 +113,7 @@ export class OldManergot implements LanguageClass {
     // Clean up impossible clusters
     c = c.replace(
       /[^aeiouyrlmnŋŋbdgvθðʃçxzfhjptks][^aeiouyrlmnŋbdgvθðʃçxzfhjptks]/g,
-      (m) => m[0] + this._randChoice(["a", "e", "i"], 0.5) + m[1]
+      (m) => m[0] + this._randChoice(["a", "e", "i"], 0.5) + m[1],
     );
 
     // === Final IPA approximation ===
