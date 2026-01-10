@@ -57,15 +57,19 @@ export const useLanguageStore = defineStore("language", () => {
     }
   };
 
-  const addLanguage = ({ name }: { name: string }) => {
-    languages.value.push({
+  const addLanguage = ({ name }: { name: string }): Language => {
+    const newLang = {
       id: uuidv4(),
       name,
       languageBase: null,
       soundShifts: [],
-    });
+    };
+
+    languages.value.push(newLang);
 
     saveStoredLanguages();
+
+    return newLang;
   };
 
   const changeLanguageBase = (baseLanguage: LanguageKey) => {

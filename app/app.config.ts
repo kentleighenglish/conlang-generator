@@ -10,6 +10,11 @@ export default defineAppConfig({
     dashboardGroup: {
       base: "relative inset-0 flex overflow-hidden",
     },
+    select: {
+      slots: {
+        content: "min-w-fit",
+      },
+    },
     colors: {
       primary: "rose",
       secondary: "yellow",
