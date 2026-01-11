@@ -21,43 +21,16 @@ import type {
 
 const languages: Array<LanguageKey> = ["en", "ru"];
 
-const grabTranslations = cachedFunction(
-  async (
-    inputWord: string,
-    languages: Array<LanguageKey>,
-  ): Promise<Translation[]> => {
-    const out = [];
+type ScoredWord = { word: string; score: number };
 
-    try {
-      const synonyms: Array<{ word: string; score: number }> =
-        await datamuse.request(`words?rel_syn=${inputWord}`);
+const grabSynonyms = cachedFunction(
+  async (input: string): Promise<ScoredWord[]> => {
+    const synonyms: Array<{ word: string; score: number }> = await datamuse.request(`words?rel_syn=${input}`);
 
-      const filteredSyns = synonyms
-        .map(({ word, score }) => ({ word, score }))
-        .slice(0, 5);
+    const filteredSyns = synonyms
+      .map(({ word, score }) => ({ word, score }));
 
-      const words = [{ word: inputWord, score: 1000000 }, ...filteredSyns];
-
-      for (const { word, score } of words) {
-        for (const lang of languages) {
-          const response = await translate(word, { from: "en", to: lang.toString() });
-
-          const ipa = await fetchIPA(response.text, lang);
-
-          out.push({
-            original: word,
-            translated: response.text,
-            lang: lang,
-            score,
-            ipa,
-          });
-        }
-      }
-    } catch (e) {
-      console.error("Error while translating", e);
-    }
-
-    return out;
+    return filteredSyns;
   },
   {
     maxAge: 60 * 60,
@@ -66,20 +39,59 @@ const grabTranslations = cachedFunction(
   },
 );
 
+const grabTranslation = cachedFunction(
+  async (
+    inputWord: string,
+    lang: LanguageKey,
+  ): Promise<Pick<Translation, "translated" | "ipa">> => {
+    try {
+      const response = await translate(inputWord, { from: "en", to: lang.toString() });
+
+      const ipa = await fetchIPA(response.text, lang);
+
+      return {
+        translated: response.text,
+        ipa,
+      };
+    } catch (e) {
+      console.error("Error while translating", e);
+    }
+
+    throw "Error while translating";
+  },
+  {
+    maxAge: 60 * 60,
+    name: "translation",
+    getKey: (input: string, lang: string) => `translation:${input}:${lang}`,
+  },
+);
+
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
-  const { input = null, lang } = getQuery<{ input: string; lang: string }>(
+  const { input = null, inputLang, outputLang, synonymCount = 0 } = getQuery<{
+    input: string[];
+    outputLang: LanguageKey;
+    inputLang: LanguageKey;
+    synonymCount?: number; 
+  }>(
     event,
   );
 
   if (!input) {
     throw "Input required";
-  } else if (!lang) {
-    throw "Language required";
+  }
+  if(!Array.isArray(input)) {
+    throw "Invalid input";
+  }
+  if (!inputLang) {
+    throw "Input Language required";
+  }
+  if (!outputLang) {
+    throw "Output Language required";
   }
 
-  const inputWord = input?.toLowerCase().trim();
+  const inputLowercase = input.map(str => str.toLowerCase().trim());
 
-  const langKeys = lang.split(",") as LanguageKey[];
+  const langKeys = outputLang.split(",") as LanguageKey[];
 
   if (
     langKeys.filter((key) => !languages.includes(key as LanguageKey)).length >
@@ -88,11 +100,46 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
     throw "Invalid language provided";
   }
 
-  const words = await grabTranslations(inputWord, langKeys);
+  const output: TranslateResponse = {};
 
-  if (!words) {
-    return [];
+  for (const word of inputLowercase) {
+    const translated: Translation[] = [];
+
+    for (const lang of langKeys) {
+      const translatedWord = await grabTranslation(word, lang);
+
+      if (translatedWord) {
+        translated.push({
+          ...translatedWord,
+          original: word,
+          lang,
+          score: 10000,
+        });
+      }
+
+      if (synonymCount > 0) {
+        const synonyms = await grabSynonyms(word);
+
+        for (const synonymWord of synonyms ?? []) {
+          const translatedSynonymWord = await grabTranslation(synonymWord.word, lang);
+          if (translatedSynonymWord) {
+            translated.push({
+              ...translatedSynonymWord,
+              original: synonymWord.word,
+              score: synonymWord.score,
+              lang,
+            });
+          }
+        }
+      }
+    }
+    
+    if (!translated.length) {
+      throw `Cannot translate ${word}`;
+    }
+
+    output[word] = translated;
   }
 
-  return words;
+  return output;
 });

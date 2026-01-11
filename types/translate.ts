@@ -32,4 +32,4 @@ export type Translation = {
 //     languageKey: string;
 //     languageLabel: string;
 // };
-export type TranslateResponse = Array<Translation>;
+export type TranslateResponse = Record<string, Translation[]>;
