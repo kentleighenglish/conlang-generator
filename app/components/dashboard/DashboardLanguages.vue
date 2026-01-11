@@ -4,7 +4,7 @@ import type {
   SelectItem,
   TableColumn,
 } from "@nuxt/ui";
-import { useLanguageStore, type SoundShift } from "~/store/languages";
+import type { SoundShift } from "~/stores/languages";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
 const languageStore = useLanguageStore();

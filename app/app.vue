@@ -1,6 +1,4 @@
 <script setup>
-import { useLanguageStore } from "./store/languages";
-
 const languageStore = useLanguageStore();
 
 onMounted(() => {

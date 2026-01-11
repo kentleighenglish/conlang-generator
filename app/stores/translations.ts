@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
 import type { TranslateResponse, Translation } from "~~/types/translate";
-import { useLanguageStore } from "./languages";
 
 export const useTranslationStore = defineStore("translation", () => {
   const languageStore = useLanguageStore();

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AcceptableValue, SelectItem } from "@nuxt/ui";
-import { useLanguageStore } from "~/store/languages";
 
 const languageStore = useLanguageStore();
 
