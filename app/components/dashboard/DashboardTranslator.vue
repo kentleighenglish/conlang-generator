@@ -12,13 +12,9 @@ const translateInput = ref<string[]>([]);
 
 const translationStore = useTranslationStore();
 
-// const data = computed(
-//   () =>
-//     translationStore.translations[loadedTranslateInput.value] || {
-//       loading: false,
-//       items: [],
-//     },
-// );
+const data = computed(
+  () => translateInput.value.map((input) => translationStore.translations[input.toLowerCase()] || []),
+);
 
 const onInputUpdate = async () => {
   if (translateInput.value.length) {
@@ -88,6 +84,7 @@ const onInputUpdate = async () => {
             @change="onInputUpdate"
           />
         </UForm>
+        {{ data}}
         <!-- <UTable
           :data="data.items"
           :columns="tableColumns"

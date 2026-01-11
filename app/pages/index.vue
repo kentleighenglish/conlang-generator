@@ -139,7 +139,7 @@ watch(currentLanguage, (currentLang) => {
         <UTabs
           v-model="activeTab"
           :items="dashboardNav"
-          size="lg"
+          size="md"
           variant="pill"
           :content="false"
         />

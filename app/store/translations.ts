@@ -1,17 +1,17 @@
 import { defineStore } from "pinia";
 
-import type { TranslateResponse } from "~~/types/translate";
+import type { TranslateResponse, Translation } from "~~/types/translate";
 import { useLanguageStore } from "./languages";
 
 export const useTranslationStore = defineStore("translation", () => {
   const languageStore = useLanguageStore();
 
   const translations = ref<
-    Record<string, { loading: boolean; items: TranslateResponse }>
+    Record<string, Translation[]>
   >({});
   const loading = ref<boolean>(false);
 
-  const translate = async (translateInput: string[]) => {
+  const translate = async (translateInput: string[], synonymCount: number = 0) => {
     loading.value = true;
 
     if (!languageStore.currentLanguage) {
@@ -22,17 +22,14 @@ export const useTranslationStore = defineStore("translation", () => {
       const data = await $fetch<TranslateResponse>("/api/translate", {
         query: {
           input: translateInput.join(","),
-          synonyms: 0,
+          synonymCount,
           inputLang: "en",
           outputLang: languageStore.currentLanguage.languageBase,
         },
       });
-      console.log(data);
 
-      // translations.value[translateInput] = {
-      //   loading: false,
-      //   items: data,
-      // };
+      translations.value = data;
+
       loading.value = false;
     } catch (e) {
       loading.value = false;
