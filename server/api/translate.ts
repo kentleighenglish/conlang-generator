@@ -72,7 +72,7 @@ const ValidQuery = z.object({
   input: z.string(),
   outputLang: LanguageEnum,
   inputLang: LanguageEnum,
-  synonymCount: z.number().optional(),
+  synonymCount: z.coerce.number().optional(),
 });
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
   const query = getQuery<{
