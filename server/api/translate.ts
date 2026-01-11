@@ -42,16 +42,17 @@ const grabSynonyms = cachedFunction(
 const grabTranslation = cachedFunction(
   async (
     inputWord: string,
-    lang: LanguageKey,
-  ): Promise<Pick<Translation, "translated" | "ipa">> => {
+    inputLang: LanguageKey,
+    outputLang: LanguageKey,
+  ): Promise<Pick<Translation, "translated" | "translatedIPA">> => {
     try {
-      const response = await translate(inputWord, { from: "en", to: lang.toString() });
+      const response = await translate(inputWord, { from: inputLang, to: outputLang });
 
-      const ipa = await fetchIPA(response.text, lang);
+      const ipa = await fetchIPA(response.text, outputLang);
 
       return {
         translated: response.text,
-        ipa,
+        translatedIPA: ipa,
       };
     } catch (e) {
       console.error("Error while translating", e);
@@ -66,13 +67,13 @@ const grabTranslation = cachedFunction(
   },
 );
 
-const LanguageEnum = z.enum(Object.keys(ValidLanguages));
+const LanguageEnum = z.enum(Object.keys(ValidLanguages) as LanguageKey[]);
 const ValidQuery = z.object({
   input: z.string(),
   outputLang: LanguageEnum,
   inputLang: LanguageEnum,
   synonymCount: z.number().optional(),
-})
+});
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
   const query = getQuery<{
     input: string;
@@ -106,28 +107,33 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
 
   for (const word of inputLowercase) {
     const translated: Translation[] = [];
+    const originalIPA = await fetchIPA(word, inputLang);
 
     for (const lang of langKeys) {
-      const translatedWord = await grabTranslation(word, lang);
+      const translatedWord = await grabTranslation(word, inputLang, lang);
 
       if (translatedWord) {
         translated.push({
           ...translatedWord,
           original: word,
+          originalIPA,
           lang,
           score: 10000,
         });
       }
 
       if (synonymCount > 0) {
-        const synonyms = await grabSynonyms(word);
+        const synonyms = await grabSynonyms(word); // these have to be inputtted in English
 
         for (const synonymWord of synonyms ?? []) {
-          const translatedSynonymWord = await grabTranslation(synonymWord.word, lang);
+          const translatedSynonymWord = await grabTranslation(synonymWord.word, inputLang, lang);
+          const synonymIPA = await fetchIPA(synonymWord.word, inputLang);
+
           if (translatedSynonymWord) {
             translated.push({
               ...translatedSynonymWord,
               original: synonymWord.word,
+              originalIPA: synonymIPA,
               score: synonymWord.score,
               lang,
             });

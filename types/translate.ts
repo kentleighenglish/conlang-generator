@@ -14,8 +14,9 @@ export const ValidLanguages: Record<LanguageKey, ValidLanguageDef> = {
 
 export type Translation = {
   original: string;
+  originalIPA: string;
   translated: string;
-  ipa: string;
+  translatedIPA: string;
   lang: string;
   score: number;
 };
