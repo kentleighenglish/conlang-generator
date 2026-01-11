@@ -1,72 +1,65 @@
 <script setup lang="ts">
-// import type { TableColumn } from "@nuxt/ui";
-// import { getGroupedRowModel } from "@tanstack/vue-table";
-// import type { GroupingOptions } from "@tanstack/vue-table";
+import type { TableColumn } from "@nuxt/ui";
+import { getGroupedRowModel } from "@tanstack/vue-table";
+import type { GroupingOptions } from "@tanstack/vue-table";
 
 // import type { AcceptableValue } from "@nuxt/ui";
-import { useTranslationStore } from "~/store/translations";
 
-// import type { TranslateResponseItem } from "~~/types/translate";
+import type { Translation } from "~~/types/translate";
 
 const translateInput = ref<string[]>([]);
+const synonymCount = ref<number>(0);
 
 const translationStore = useTranslationStore();
 
 const data = computed(
-  () => translateInput.value.map((input) => translationStore.translations[input.toLowerCase()] || []),
+  () => translateInput.value.reduce((acc, input) => ([
+    ...acc,
+    ...(translationStore.translations[input.toLowerCase()] || []),
+  ]), [] as Translation[]),
 );
 
 const onInputUpdate = async () => {
   if (translateInput.value.length) {
-    await translationStore.translate(translateInput.value);
+    await translationStore.translate(translateInput.value, synonymCount.value);
   }
 };
 
-// const tableColumns: TableColumn<TranslateResponseItem>[] = [
-//   {
-//     id: "title",
-//     header: "Language",
-//   },
-//   {
-//     id: "languageKey",
-//     accessorKey: "languageKey",
-//   },
-//   {
-//     accessorKey: "original",
-//     header: "English",
-//   },
-//   {
-//     accessorKey: "rootText",
-//     header: "Translated",
-//   },
-//   {
-//     accessorKey: "rootTextIPA",
-//     header: "Translated IPA",
-//   },
-//   {
-//     accessorKey: "translatedText",
-//     header: "Conlang",
-//   },
-//   {
-//     accessorKey: "translatedTextIPA",
-//     header: "Conlang IPA",
-//   },
-//   {
-//     accessorKey: "chaos",
-//     header: "Chaos",
-//   },
-//   {
-//     accessorKey: "score",
-//     header: "Score",
-//     aggregationFn: "sum",
-//     aggregatedCell: () => "Hello world",
-//   },
-// ];
+const renderIPA = (ipa: string) => h("code", { class: "text-primary" }, `/${ipa}/`);
+const tableColumns: TableColumn<Translation>[] = [
+  // {
+  //   id: "title",
+  //   header: "Language",
+  // },
+  {
+    id: "baseWordKey",
+    accessorKey: "baseWord",
+    header: "Tag",
+  },
+  {
+    accessorKey: "original",
+    header: "Original",
+  },
+  {
+    accessorKey: "originalIPA",
+    header: "IPA",
+    cell: ({ cell }) => renderIPA(cell.getValue() as string),
+  },
+  {
+    accessorKey: "translated",
+    header: "Translated",
+  },
+  {
+    accessorKey: "translatedIPA",
+    header: "Translated IPA",
+    cell: ({ cell }) => renderIPA(cell.getValue() as string),
+  },
+];
 
-// const groupingOptions = ref<GroupingOptions>({
-//   groupedColumnMode: "remove",
-//   getGroupedRowModel: getGroupedRowModel(),
-// });
+const groupingOptions = ref<GroupingOptions>({
+  groupedColumnMode: "remove",
+  getGroupedRowModel: getGroupedRowModel(),
+});
 </script>
 <template>
   <UDashboardGroup storage="local" storage-key="translatorDashboard">
@@ -83,13 +76,22 @@ const onInputUpdate = async () => {
             required
             @change="onInputUpdate"
           />
+          <UInputNumber 
+            v-model="synonymCount"
+            type="number"
+            placeholder="Translate Input"
+            size="xl"
+            :max="10"
+            :loading="translationStore.loading"
+            required
+            @change="onInputUpdate"
+          />
         </UForm>
-        {{ data}}
-        <!-- <UTable
-          :data="data.items"
+        <UTable
+          :data="data"
           :columns="tableColumns"
           :grouping-options="groupingOptions"
-          :grouping="['languageKey']"
+          :grouping="['baseWord']"
           :ui="{
             root: 'min-w-full',
             td: 'empty:p-0', // helps with the colspaned row added for expand slot
@@ -110,12 +112,12 @@ const onInputUpdate = async () => {
                 :icon="row.getIsExpanded() ? 'i-lucide-minus' : 'i-lucide-plus'"
                 @click="row.toggleExpanded()"
               />
-              <strong v-if="row.groupingColumnId === 'languageKey'">
-                {{ row.original.languageLabel }}
+              <strong v-if="row.groupingColumnId === 'baseWord'">
+                {{ row.original.baseWord }}
               </strong>
             </div>
           </template>
-        </UTable> -->
+        </UTable>
       </template>
     </UDashboardPanel>
   </UDashboardGroup>
