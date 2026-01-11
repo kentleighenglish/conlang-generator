@@ -1,14 +1,16 @@
 import translate from "google-translate-api-x";
 // @ts-expect-error there are no datamuse types, and can't be bothered to make some
 import datamuse from "datamuse";
+import * as z from "zod";
 import { fetchIPA } from "../helpers/unalengua";
 
 // import { OldManergot } from "../languages/old-manergot";
 
-import type {
-  Translation,
-  TranslateResponse,
-  LanguageKey,
+import {
+  type Translation,
+  type TranslateResponse,
+  type LanguageKey,
+  ValidLanguages,
 } from "../../types/translate";
 
 // type LanguageClassConstructor = new () => LanguageClass;
@@ -18,8 +20,6 @@ import type {
 //     // "Tamani":
 //     // "Ogma":
 // ];
-
-const languages: Array<LanguageKey> = ["en", "ru"];
 
 type ScoredWord = { word: string; score: number };
 
@@ -66,9 +66,16 @@ const grabTranslation = cachedFunction(
   },
 );
 
+const LanguageEnum = z.enum(Object.keys(ValidLanguages));
+const ValidQuery = z.object({
+  input: z.string(),
+  outputLang: LanguageEnum,
+  inputLang: LanguageEnum,
+  synonymCount: z.number().optional(),
+})
 export default defineEventHandler(async (event): Promise<TranslateResponse> => {
-  const { input = null, inputLang, outputLang, synonymCount = 0 } = getQuery<{
-    input: string[];
+  const query = getQuery<{
+    input: string;
     outputLang: LanguageKey;
     inputLang: LanguageKey;
     synonymCount?: number; 
@@ -76,12 +83,14 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
     event,
   );
 
+  const { input = null, inputLang, outputLang, synonymCount = 0 } = ValidQuery.parse(query);
+
   if (!input) {
     throw "Input required";
   }
-  if(!Array.isArray(input)) {
-    throw "Invalid input";
-  }
+  
+  const splitInput = input.split(",");
+
   if (!inputLang) {
     throw "Input Language required";
   }
@@ -89,16 +98,9 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
     throw "Output Language required";
   }
 
-  const inputLowercase = input.map(str => str.toLowerCase().trim());
+  const inputLowercase = splitInput.map(str => str.toLowerCase().trim());
 
   const langKeys = outputLang.split(",") as LanguageKey[];
-
-  if (
-    langKeys.filter((key) => !languages.includes(key as LanguageKey)).length >
-    0
-  ) {
-    throw "Invalid language provided";
-  }
 
   const output: TranslateResponse = {};
 
