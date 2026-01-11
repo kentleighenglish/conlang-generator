@@ -115,6 +115,7 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
       if (translatedWord) {
         translated.push({
           ...translatedWord,
+          baseWord: word,
           original: word,
           originalIPA,
           lang,
@@ -123,15 +124,18 @@ export default defineEventHandler(async (event): Promise<TranslateResponse> => {
       }
 
       if (synonymCount > 0) {
-        const synonyms = await grabSynonyms(word); // these have to be inputtted in English
+        const synonyms = await grabSynonyms(word); // these have to be inputted in English
 
-        for (const synonymWord of synonyms ?? []) {
+        const slicedSynonyms = (synonyms ?? []).slice(0, synonymCount);
+
+        for (const synonymWord of slicedSynonyms) {
           const translatedSynonymWord = await grabTranslation(synonymWord.word, inputLang, lang);
           const synonymIPA = await fetchIPA(synonymWord.word, inputLang);
 
           if (translatedSynonymWord) {
             translated.push({
               ...translatedSynonymWord,
+              baseWord: word,
               original: synonymWord.word,
               originalIPA: synonymIPA,
               score: synonymWord.score,

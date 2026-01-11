@@ -13,6 +13,7 @@ export const ValidLanguages: Record<LanguageKey, ValidLanguageDef> = {
 // };
 
 export type Translation = {
+  baseWord: string;
   original: string;
   originalIPA: string;
   translated: string;
@@ -29,8 +30,4 @@ export type Translation = {
 //     chaos: number;
 // }
 
-// export type TranslateResponseItem = Translation & GoogleTranslation & {
-//     languageKey: string;
-//     languageLabel: string;
-// };
 export type TranslateResponse = Record<string, Translation[]>;
