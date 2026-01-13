@@ -9,6 +9,7 @@ import type { Translation } from "~~/types/translate";
 
 const translateInput = ref<string[]>([]);
 const synonymCount = ref<number>(0);
+const chaos = ref<number>(0.5);
 
 const translationStore = useTranslationStore();
 
@@ -66,26 +67,46 @@ const groupingOptions = ref<GroupingOptions>({
     <UDashboardPanel>
       <template #body>
         <UForm>
-          <UInputTags 
-            v-model="translateInput"
-            type="text"
-            placeholder="Translate Input"
-            size="xl"
-            :max="10"
-            :loading="translationStore.loading"
-            required
-            @change="onInputUpdate"
-          />
-          <UInputNumber 
-            v-model="synonymCount"
-            type="number"
-            placeholder="Translate Input"
-            size="xl"
-            :max="10"
-            :loading="translationStore.loading"
-            required
-            @change="onInputUpdate"
-          />
+          <div class="flex gap-8">
+            <UFormField label="Words" hint="('Enter' to submit tags)">
+              <UInputTags 
+                v-model="translateInput"
+                type="text"
+                placeholder="Translate Input"
+                size="xl"
+                :max="10"
+                :loading="translationStore.loading"
+                required
+                @change="onInputUpdate"
+              />
+            </UFormField>
+            <UFormField label="Synonyms">
+              <UInputNumber 
+                v-model="synonymCount"
+                type="number"
+                placeholder="Translate Input"
+                size="xl"
+                orientation="vertical"
+                :max="10"
+                :loading="translationStore.loading"
+                required
+                @change="onInputUpdate"
+              />
+            </UFormField>
+            <UFormField label="Chaos">
+              <USlider
+                v-model="chaos"
+                class="min-w-64"
+                size="xl"
+                :min="0"
+                :max="1"
+                :step="0.01"
+                :loading="translationStore.loading"
+                required
+                @change="onInputUpdate"
+              />
+            </UFormField>
+          </div>
         </UForm>
         <UTable
           :data="data"
