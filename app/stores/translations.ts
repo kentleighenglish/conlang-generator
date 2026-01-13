@@ -42,3 +42,6 @@ export const useTranslationStore = defineStore("translation", () => {
     translate,
   };
 });
+
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(useTranslationStore, import.meta.hot));
