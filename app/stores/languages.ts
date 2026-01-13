@@ -6,7 +6,7 @@ export type SoundShift = {
   id: string;
   from: string | null;
   to: string | null;
-  chaos: number;
+  occurrence: number;
   preceding?: string;
   succeeding?: string;
   startOnly?: boolean;
@@ -91,7 +91,7 @@ export const useLanguageStore = defineStore("language", () => {
       id: uuidv4(),
       from: null,
       to: null,
-      chaos: 0,
+      occurrence: 1,
     });
 
     languages.value.map((language) => {
