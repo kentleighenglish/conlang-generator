@@ -28,14 +28,15 @@ const grabSynonyms = cachedFunction(
     const synonyms: Array<{ word: string; score: number }> = await datamuse.request(`words?rel_syn=${input}`);
 
     const filteredSyns = synonyms
+      .filter((synonym) => !synonym.word.includes(" "))
       .map(({ word, score }) => ({ word, score }));
 
     return filteredSyns;
   },
   {
     maxAge: 60 * 60,
-    name: "translation",
-    getKey: (input: string) => `translation:${input}`,
+    name: "synonyms",
+    getKey: (input: string) => `synonyms:${input}`,
   },
 );
 
