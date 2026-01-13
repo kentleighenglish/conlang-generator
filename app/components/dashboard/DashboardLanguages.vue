@@ -56,7 +56,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
     header: "Preceding",
   },
   {
-    accessorKey: "chaos",
+    accessorKey: "occurrence",
     header: () => h("div", { class: "flex gap-1" }, [
       "Occurrence",
       h(UTooltip, {
@@ -69,7 +69,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
       max: 1,
       step: 0.1,
       modelValue: cell.getValue(),
-      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { chaos: Number(value) }),
+      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { occurrence: Number(value) }),
     }),
   },
   {
