@@ -17,7 +17,7 @@ const generated = ref<{ text: string; ipa: string }>(languageStore.translate(pro
 
 const DisplayText = computed(() => props.ipa ? renderIPA(generated.value.ipa) : h("span", {}, generated.value.text));
 
-watch(() => soundShifts, () => {
+watch(() => soundShifts.value, () => {
   generated.value = languageStore.translate(props.input, props.lang);
 });
 </script>
