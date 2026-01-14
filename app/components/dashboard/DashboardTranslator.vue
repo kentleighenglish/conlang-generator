@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 import { getGroupedRowModel } from "@tanstack/vue-table";
-import type { GroupingOptions } from "@tanstack/vue-table";
-
-// import type { AcceptableValue } from "@nuxt/ui";
+import type { GroupingOptions, Row } from "@tanstack/vue-table";
 
 import type { Translation } from "~~/types/translate";
 
@@ -12,6 +10,13 @@ const synonymCount = ref<number>(0);
 const chaos = ref<number>(0.5);
 
 const translationStore = useTranslationStore();
+
+const aggregateFirst = (columnId: string, leafRows: Row<Translation>[]) => {
+  if (!leafRows.length) {
+    return undefined;
+  }
+  return leafRows[0]?.getValue(columnId);
+};
 
 const data = computed(
   () => translateInput.value.reduce((acc, input) => ([
@@ -35,24 +40,29 @@ const tableColumns: TableColumn<Translation>[] = [
   {
     id: "baseWordKey",
     accessorKey: "baseWord",
-    header: "Tag",
   },
   {
+    id: "title",
     accessorKey: "original",
     header: "Original",
+    cell: ({ cell }) => cell.getValue(),
   },
   {
     accessorKey: "originalIPA",
     header: "IPA",
+    aggregationFn: aggregateFirst,
     cell: ({ cell }) => renderIPA(cell.getValue() as string),
   },
   {
     accessorKey: "translated",
     header: "Translated",
+    aggregationFn: aggregateFirst,
+    cell: ({ cell }) => cell.getValue(),
   },
   {
     accessorKey: "translatedIPA",
     header: "Translated IPA",
+    aggregationFn: aggregateFirst,
     cell: ({ cell }) => renderIPA(cell.getValue() as string),
   },
 ];
@@ -112,7 +122,7 @@ const groupingOptions = ref<GroupingOptions>({
           :data="data"
           :columns="tableColumns"
           :grouping-options="groupingOptions"
-          :grouping="['baseWord']"
+          :grouping="['baseWordKey']"
           :ui="{
             root: 'min-w-full',
             td: 'empty:p-0', // helps with the colspaned row added for expand slot
@@ -133,7 +143,7 @@ const groupingOptions = ref<GroupingOptions>({
                 :icon="row.getIsExpanded() ? 'i-lucide-minus' : 'i-lucide-plus'"
                 @click="row.toggleExpanded()"
               />
-              <strong v-if="row.groupingColumnId === 'baseWord'">
+              <strong v-if="row.groupingColumnId === 'baseWordKey'">
                 {{ row.original.baseWord }}
               </strong>
             </div>
