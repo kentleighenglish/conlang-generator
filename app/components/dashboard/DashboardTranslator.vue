@@ -10,6 +10,7 @@ const synonymCount = ref<number>(0);
 const chaos = ref<number>(0.5);
 
 const translationStore = useTranslationStore();
+const languageStore = useLanguageStore();
 
 const aggregateFirst = (columnId: string, leafRows: Row<Translation>[]) => {
   if (!leafRows.length) {
@@ -31,7 +32,7 @@ const onInputUpdate = async () => {
   }
 };
 
-const renderIPA = (ipa: string) => h("code", { class: "text-primary" }, `/${ipa}/`);
+const ConlangTranslate = resolveComponent("TableConlangTranslate");
 const tableColumns: TableColumn<Translation>[] = [
   // {
   //   id: "title",
@@ -64,6 +65,24 @@ const tableColumns: TableColumn<Translation>[] = [
     header: "Translated IPA",
     aggregationFn: aggregateFirst,
     cell: ({ cell }) => renderIPA(cell.getValue() as string),
+  },
+  {
+    id: "generated",
+    header: "Generated",
+    aggregationFn: aggregateFirst,
+    cell: ({ row }) => h(ConlangTranslate, {
+      ipa: false,
+      input: row.getValue("translatedIPA"),
+    }),
+  },
+  {
+    id: "generatedIPA",
+    header: "Generated IPA",
+    aggregationFn: aggregateFirst,
+    cell: ({ row }) => h(ConlangTranslate, {
+      ipa: true,
+      input: row.getValue("translatedIPA"),
+    }),
   },
 ];
 

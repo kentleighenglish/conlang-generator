@@ -142,7 +142,20 @@ export const useLanguageStore = defineStore("language", () => {
     saveStoredLanguages();
   };
 
+  const translate = (inputIPA: string, lang?: string): { text: string; ipa: string; } => {
+    if (!lang) {
+      lang = currentLanguage.value?.id;
+    }
+
+    const { soundShifts = [] } = languages.value.find((language) => language.id === lang)!;
+    
+    const updatedIPA = applySoundShifts(inputIPA, soundShifts);
+
+    return { ipa: updatedIPA, text: updatedIPA };
+  };
+
   return {
+    translate,
     languages,
     addLanguage,
     changeLanguageBase,
