@@ -4,6 +4,7 @@ import type {
   SelectItem,
   TableColumn,
 } from "@nuxt/ui";
+import { useSortable } from "@vueuse/integrations/useSortable"
 import type { SoundShift } from "~/stores/languages";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
@@ -29,6 +30,10 @@ const CustomSlider = resolveComponent("CustomSlider");
 const UIcon = resolveComponent("UIcon");
 const SelectSound = resolveComponent("TableSelectSound");
 const tableColumns: TableColumn<SoundShift>[] = [
+  {
+    id: "handle",
+    cell: () => h(UIcon, { name: "i-radix-icons:drag-handle-dots-2", class: "dashboard-languages-table-handle cursor-pointer" }, []),
+  },
   {
     id: "index",
     cell: ({ row }) => `#${row.index + 1}`,
@@ -89,6 +94,17 @@ const onChangeLanguageBase = (newLanguageBase: AcceptableValue | undefined) => {
     languageStore.changeLanguageBase(newLanguageBase as LanguageKey);
   }
 };
+
+const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? []);
+
+useSortable(".dashboard-languages-table", data, {
+  animation: 150,
+  handle: ".dashboard-languages-table-handle",
+  ghostClass: "bg-elevated",
+  onUpdate: (e) => {
+    console.log(e);
+  },
+});
 </script>
 <template>
   <UDashboardGroup
@@ -122,7 +138,10 @@ const onChangeLanguageBase = (newLanguageBase: AcceptableValue | undefined) => {
             </template>
             <UTable
               :columns="tableColumns"
-              :data="currentLanguage.soundShifts"
+              :data="data"
+              :ui="{
+                tbody: 'dashboard-languages-table'
+              }"
             />
           </UCard>
         </div>
