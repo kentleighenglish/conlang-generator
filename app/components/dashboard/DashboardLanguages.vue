@@ -25,7 +25,7 @@ const updateSoundShift = (id: string, updateObj: Partial<SoundShift>) => {
 
 const UButton = resolveComponent("UButton");
 const UTooltip = resolveComponent("UTooltip");
-const USlider = resolveComponent("USlider");
+const CustomSlider = resolveComponent("CustomSlider");
 const UIcon = resolveComponent("UIcon");
 const SelectSound = resolveComponent("TableSelectSound");
 const tableColumns: TableColumn<SoundShift>[] = [
@@ -64,7 +64,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
         text: "This determines how often this shift should occur, lower rates require higher chaos.",
       }, h(UIcon, { name: "i-ion-help-circle-outline", class: "size-4" })),
     ]),
-    cell: ({ row, cell }) => h(USlider, {
+    cell: ({ row, cell }) => h(CustomSlider, {
       min: 0,
       max: 1,
       step: 0.1,

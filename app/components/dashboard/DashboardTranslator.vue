@@ -10,7 +10,6 @@ const synonymCount = ref<number>(0);
 const chaos = ref<number>(0.5);
 
 const translationStore = useTranslationStore();
-const languageStore = useLanguageStore();
 
 const aggregateFirst = (columnId: string, leafRows: Row<Translation>[]) => {
   if (!leafRows.length) {
@@ -123,7 +122,7 @@ const groupingOptions = ref<GroupingOptions>({
               />
             </UFormField>
             <UFormField label="Chaos">
-              <USlider
+              <CustomSlider
                 v-model="chaos"
                 class="min-w-64"
                 size="xl"
