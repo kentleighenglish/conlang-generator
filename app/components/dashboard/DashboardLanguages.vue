@@ -51,6 +51,11 @@ const sortButton = (row: TableRow<SoundShift>, up = false) => {
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "handle",
+    meta: {
+      class: {
+          td: "w-32 whitespace-normal",
+      },
+    },
     cell: ({ row }) => h("div", {}, [
       sortButton(row, true),
       sortButton(row, false),
@@ -62,6 +67,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
   },
   {
     accessorKey: "from",
+    enableResizing: true,
     header: "From",
     cell: ({ row, cell }) => h(SelectSound, {
       lang: currentLanguage.value?.languageBase,
