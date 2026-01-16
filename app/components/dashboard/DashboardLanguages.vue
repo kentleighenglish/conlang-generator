@@ -4,7 +4,8 @@ import type {
   SelectItem,
   TableColumn,
 } from "@nuxt/ui";
-import { useSortable } from "@vueuse/integrations/useSortable"
+import { useSortable } from "@vueuse/integrations/useSortable";
+import type Sortable from "sortablejs";
 import type { SoundShift } from "~/stores/languages";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
@@ -32,7 +33,7 @@ const SelectSound = resolveComponent("TableSelectSound");
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "handle",
-    cell: () => h(UIcon, { name: "i-radix-icons:drag-handle-dots-2", class: "dashboard-languages-table-handle cursor-pointer" }, []),
+    cell: () => h(UIcon, { name: "i-radix-icons:drag-handle-dots-2", class: "dashboard-languages-table-handle cursor-pointer" }, () => {}),
   },
   {
     id: "index",
@@ -67,7 +68,7 @@ const tableColumns: TableColumn<SoundShift>[] = [
       h(UTooltip, {
         class: "cursor-pointer",
         text: "This determines how often this shift should occur, lower rates require higher chaos.",
-      }, h(UIcon, { name: "i-ion-help-circle-outline", class: "size-4" })),
+      }, () => h(UIcon, { name: "i-ion-help-circle-outline", class: "size-4" })),
     ]),
     cell: ({ row, cell }) => h(CustomSlider, {
       min: 0,
@@ -95,15 +96,23 @@ const onChangeLanguageBase = (newLanguageBase: AcceptableValue | undefined) => {
   }
 };
 
-const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? []);
+const data = ref<SoundShift[]>(currentLanguage.value?.soundShifts ?? []);
 
 useSortable(".dashboard-languages-table", data, {
   animation: 150,
   handle: ".dashboard-languages-table-handle",
   ghostClass: "bg-elevated",
-  onUpdate: (e) => {
-    console.log(e);
-  },
+  // onUpdate: (e: Sortable.SortableEvent) => {
+  //   if (e.oldIndex !== undefined && e.newIndex !== undefined) {
+  //     stop();
+  //     languageStore.sortSoundShifts(e.oldIndex, e.newIndex);
+  //     start();
+  //   }
+  // },
+});
+
+watch(data, () => {
+  languageStore.overrideSoundShifts(data.value);
 });
 </script>
 <template>

@@ -29,6 +29,7 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@types/sortablejs": "^1.15.9",
     "eslint-config-prettier": "^10.1.8"
   }
 }
