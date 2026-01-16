@@ -7,6 +7,7 @@ onMounted(() => {
 </script>
 <template>
   <UApp>
+    <AddSoundShift />
     <NuxtLayout>
       <NuxtPage v-if="languageStore.storeInitialized" />
       <UEmpty v-else title="Loading" class="h-screen" />

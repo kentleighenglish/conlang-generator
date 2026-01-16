@@ -13,7 +13,9 @@ const UTooltip = resolveComponent("UTooltip");
 const CustomSlider = resolveComponent("CustomSlider");
 const UIcon = resolveComponent("UIcon");
 const SelectSound = resolveComponent("TableSelectSound");
+
 const languageStore = useLanguageStore();
+const eventStore = useEventStore();
 
 const currentLanguage = computed(() => languageStore.currentLanguage);
 
@@ -149,7 +151,7 @@ const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? 
                 <UButton
                   trailing-icon="i-ion:add-circle-outline"
                   :disabled="!currentLanguage.languageBase"
-                  @click="languageStore.addSoundShift()"
+                  @click="eventStore.dispatch('addSoundShift')"
                 >
                   Add Sound Shift
                 </UButton>
