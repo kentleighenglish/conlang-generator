@@ -141,10 +141,17 @@ export const useLanguageStore = defineStore("language", () => {
     saveStoredLanguages();
   };
 
-  const overrideSoundShifts = (newSoundShifts: SoundShift[]) => {
+  const sortSoundShifts = (from: number, to: number) => {
+    const soundShifts = [...(currentLanguage.value?.soundShifts || [])];
+
+    const movedSoundShift = soundShifts.splice(from, 1);
+    if (movedSoundShift[0]) {
+      soundShifts.splice(to, 0, movedSoundShift[0]);
+    }
+
     languages.value.map((language) => {
       if (language.id === currentLanguageId.value) {
-        language.soundShifts = Array(...newSoundShifts);
+        language.soundShifts = Array(...soundShifts);
       }
 
       return language;
@@ -173,7 +180,7 @@ export const useLanguageStore = defineStore("language", () => {
     addSoundShift,
     removeSoundShift,
     updateSoundShift,
-    overrideSoundShifts,
+    sortSoundShifts,
     currentLanguage,
     currentLanguageId,
     setCurrentLanguage,

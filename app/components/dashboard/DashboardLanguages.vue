@@ -3,12 +3,16 @@ import type {
   AcceptableValue,
   SelectItem,
   TableColumn,
+  TableRow,
 } from "@nuxt/ui";
-import { useSortable } from "@vueuse/integrations/useSortable";
-import type Sortable from "sortablejs";
 import type { SoundShift } from "~/stores/languages";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
+const UButton = resolveComponent("UButton");
+const UTooltip = resolveComponent("UTooltip");
+const CustomSlider = resolveComponent("CustomSlider");
+const UIcon = resolveComponent("UIcon");
+const SelectSound = resolveComponent("TableSelectSound");
 const languageStore = useLanguageStore();
 
 const currentLanguage = computed(() => languageStore.currentLanguage);
@@ -25,15 +29,32 @@ const updateSoundShift = (id: string, updateObj: Partial<SoundShift>) => {
   languageStore.updateSoundShift(id, updateObj);
 };
 
-const UButton = resolveComponent("UButton");
-const UTooltip = resolveComponent("UTooltip");
-const CustomSlider = resolveComponent("CustomSlider");
-const UIcon = resolveComponent("UIcon");
-const SelectSound = resolveComponent("TableSelectSound");
+const sortButton = (row: TableRow<SoundShift>, up = false) => {
+  const disabled = up ? row.index === 0 : (row.index + 1) === data.value.length;
+
+  return h(
+    UButton,
+    {
+      icon: up ? "i-lucide:chevron-up": "i-lucide:chevron-down",
+      variant: "ghost",
+      color: disabled ? "accent" : "primary",
+      disabled,
+      onClick: () => languageStore.sortSoundShifts(row.index, up ? row.index - 1 : row.index + 1),
+      ui: {
+        base: ["disabled:opacity-25 aria-disabled:opacity-25"],
+      },
+    },
+    () => {},
+  );
+};
+
 const tableColumns: TableColumn<SoundShift>[] = [
   {
     id: "handle",
-    cell: () => h(UIcon, { name: "i-radix-icons:drag-handle-dots-2", class: "dashboard-languages-table-handle cursor-pointer" }, () => {}),
+    cell: ({ row }) => h("div", {}, [
+      sortButton(row, true),
+      sortButton(row, false),
+    ]),
   },
   {
     id: "index",
@@ -96,24 +117,7 @@ const onChangeLanguageBase = (newLanguageBase: AcceptableValue | undefined) => {
   }
 };
 
-const data = ref<SoundShift[]>(currentLanguage.value?.soundShifts ?? []);
-
-useSortable(".dashboard-languages-table", data, {
-  animation: 150,
-  handle: ".dashboard-languages-table-handle",
-  ghostClass: "bg-elevated",
-  // onUpdate: (e: Sortable.SortableEvent) => {
-  //   if (e.oldIndex !== undefined && e.newIndex !== undefined) {
-  //     stop();
-  //     languageStore.sortSoundShifts(e.oldIndex, e.newIndex);
-  //     start();
-  //   }
-  // },
-});
-
-watch(data, () => {
-  languageStore.overrideSoundShifts(data.value);
-});
+const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? []);
 </script>
 <template>
   <UDashboardGroup
