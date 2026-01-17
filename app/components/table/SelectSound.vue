@@ -2,9 +2,11 @@
 import * as ipa from "~/data/ipa";
 import type { LanguageKey } from "~~/types/translate";
 
-const { lang } = defineProps<{
-  lang: LanguageKey | undefined,
-}>();
+const props = withDefaults(defineProps<{
+  lang?: LanguageKey | undefined,
+}>(), {
+  lang: undefined,
+});
 
 
 const model = defineModel<string>();
@@ -18,8 +20,8 @@ const ipaLanguages: Record<LanguageKey, ipa.IPALanguage> = {
 };
 
 const currentIPA = computed(() => {
-  if (lang) {
-    return ipaLanguages[lang];
+  if (props.lang) {
+    return ipaLanguages[props.lang];
   }
 
   return ipa.all;

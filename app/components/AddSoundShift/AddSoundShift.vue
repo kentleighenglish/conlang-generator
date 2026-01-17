@@ -1,7 +1,12 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
+import { cloneDeep } from "lodash";
 import type { StepperItem } from "@nuxt/ui";
+import type { VNode } from "vue";
+
+import ShiftsForm from "./Steps/1_Shifts.vue";
 
 const eventStore = useEventStore();
+const languageStore = useLanguageStore();
 
 const modalOpen = ref<boolean>(false);
 
@@ -9,22 +14,31 @@ eventStore.subscribe("addSoundShift", () => {
   modalOpen.value = true;
 });
 
-const steps: StepperItem[] = [
+const form = ref<NewSoundShift>(cloneDeep(languageStore.initialSoundShift as NewSoundShift));
+const resetForm = () => form.value = cloneDeep(languageStore.initialSoundShift);
+
+resetForm();
+
+const steps: Array<StepperItem & { form: VNode }> = [
   {
     title: "Shift",
     icon: "i-material-symbols:translate",
+    form: h(ShiftsForm, {}),
   },
   {
     title: "Conditions",
     icon: "i-material-symbols:rule-rounded",
+    form: h(ShiftsForm, {}),
   },
   {
     title: "Flags",
     icon: "i-ion:flag",
+    form: h(ShiftsForm, {}),
   },
   {
     title: "Occurrence",
     icon: "i-ion:dice",
+    form: h(ShiftsForm, {}),
   },
 ];
 
@@ -39,10 +53,7 @@ const currentStep = ref<number>(0);
       </div>
     </template>
     <template #body>
-      <!-- Step 1: From, To, drop shift, make voiced/voiceless -->
-      <!-- Step 2: At start, at end, before, after -->
-      <!-- Step 3: Prevent multiple iterations,  -->
-      <!-- Step 3: Occurrence -->
+      <component :is="steps[currentStep]!.form" v-model="form" />
     </template>
     <template #footer>
       <div class="flex gap-2 justify-between mt-4 w-full">

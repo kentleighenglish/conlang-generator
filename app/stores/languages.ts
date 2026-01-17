@@ -4,14 +4,16 @@ import type { LanguageKey } from "~~/types/translate";
 
 export type SoundShift = {
   id: string;
-  from: string | null;
-  to: string | null;
+  from: string | undefined;
+  to: string | undefined;
   occurrence: number;
   preceding?: string;
   succeeding?: string;
   startOnly?: boolean;
   endOnly?: boolean;
 };
+
+export type NewSoundShift = Omit<SoundShift, "id">;
 
 export type Language = {
   id: string;
@@ -28,6 +30,12 @@ export const useLanguageStore = defineStore("language", () => {
   const currentLanguage = computed<Language | undefined>(() =>
     languages.value.find(({ id }) => currentLanguageId.value === id),
   );
+
+  const initialSoundShift = ref<Readonly<NewSoundShift>>({
+    from: undefined,
+    to: undefined,
+    occurrence: 1,
+  });
 
   const init = () => {
     if (window && "localStorage" in window) {
@@ -84,14 +92,12 @@ export const useLanguageStore = defineStore("language", () => {
     saveStoredLanguages();
   };
 
-  const addSoundShift = () => {
+  const addSoundShift = (data: NewSoundShift) => {
     const soundShifts = [...(currentLanguage.value?.soundShifts || [])];
 
     soundShifts.push({
       id: uuidv4(),
-      from: null,
-      to: null,
-      occurrence: 1,
+      ...data,
     });
 
     languages.value.map((language) => {
@@ -177,6 +183,7 @@ export const useLanguageStore = defineStore("language", () => {
     languages,
     addLanguage,
     changeLanguageBase,
+    initialSoundShift,
     addSoundShift,
     removeSoundShift,
     updateSoundShift,

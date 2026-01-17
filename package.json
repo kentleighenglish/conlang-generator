@@ -19,6 +19,7 @@
     "eslint": "^9.39.1",
     "file-system-cache": "^3.0.0-alpha.8",
     "google-translate-api-x": "^10.7.2",
+    "lodash": "^4.17.21",
     "nuxt": "^4.2.1",
     "pinia": "^3.0.4",
     "sortablejs": "^1.15.6",
@@ -29,6 +30,7 @@
     "zod": "^4.3.5"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.23",
     "@types/sortablejs": "^1.15.9",
     "eslint-config-prettier": "^10.1.8"
   }
