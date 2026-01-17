@@ -2,11 +2,14 @@
 import { cloneDeep } from "lodash";
 import type { StepperItem } from "@nuxt/ui";
 import type { VNode } from "vue";
+import * as z from "zod";
 
 import ShiftsForm from "./Steps/1_Shifts.vue";
 import ConditionsForm from "./Steps/2_Conditions.vue";
 import FlagsForm from "./Steps/3_Flags.vue";
 import ChaosForm from "./Steps/4_Chaos.vue";
+import type { NewSoundShift } from "~~/types/soundShift";
+import { ShiftModeArray } from "~~/types/soundShift";
 
 const eventStore = useEventStore();
 const languageStore = useLanguageStore();
@@ -22,11 +25,38 @@ const resetForm = () => form.value = cloneDeep(languageStore.initialSoundShift);
 
 resetForm();
 
+const schema = {
+  shift: z.object({
+    from: z.string("You must select a sound to shift"),
+    to: z.string().optional(),
+    shiftMode: z.enum(ShiftModeArray as string[]),
+  }).refine(({ to, shiftMode }) => {
+    return (shiftMode && !to) && (to && !shiftMode) ? true : false;
+  }),
+  conditions: z.object({
+    startOnly: z.boolean(),
+    leading: z.string().optional(),
+    endOnly: z.boolean(),
+    trailing: z.string().optional(),
+  }).refine(({ startOnly, leading, endOnly, trailing }) => (
+    ((!startOnly && !!leading) || (startOnly && !leading)) &&
+    ((!endOnly && !!trailing) || (endOnly && !trailing))
+  )) ,
+  flags: z.object({
+    preventMultipleIterations: z.boolean(),
+  }),
+  chaos: z.object({
+    occurrence: z.number(),
+  }),
+};
+
 const steps: Array<StepperItem & { form: VNode }> = [
   {
     title: "Shift",
     icon: "i-material-symbols:translate",
-    form: h(ShiftsForm, {}),
+    form: h(ShiftsForm, {
+      schema: schema.shift,
+    }),
   },
   {
     title: "Conditions",

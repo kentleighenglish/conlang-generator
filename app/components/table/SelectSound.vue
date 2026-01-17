@@ -45,6 +45,7 @@ const allOptions = computed(() => [
       :items="allOptions"
       placeholder="Select Sound"
       label="Base Language"
+      :class="$attrs.class"
       @update:model-value="onInput"
     />
   </div>
