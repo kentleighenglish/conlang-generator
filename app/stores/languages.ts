@@ -1,19 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { defineStore } from "pinia";
 import type { LanguageKey } from "~~/types/translate";
-
-export type SoundShift = {
-  id: string;
-  from: string | undefined;
-  to: string | undefined;
-  occurrence: number;
-  preceding?: string;
-  succeeding?: string;
-  startOnly?: boolean;
-  endOnly?: boolean;
-};
-
-export type NewSoundShift = Omit<SoundShift, "id">;
+import type { SoundShift, NewSoundShift } from "~~/types/soundShift";
 
 export type Language = {
   id: string;
@@ -31,10 +19,16 @@ export const useLanguageStore = defineStore("language", () => {
     languages.value.find(({ id }) => currentLanguageId.value === id),
   );
 
-  const initialSoundShift = ref<Readonly<NewSoundShift>>({
+  const initialSoundShift = ref<NewSoundShift>({
     from: undefined,
     to: undefined,
+    shiftMode: undefined,
+    startOnly: false,
+    leading: undefined,
+    endOnly: false,
+    trailing: undefined,
     occurrence: 1,
+    preventMultipleIterations: false,
   });
 
   const init = () => {
@@ -94,11 +88,12 @@ export const useLanguageStore = defineStore("language", () => {
 
   const addSoundShift = (data: NewSoundShift) => {
     const soundShifts = [...(currentLanguage.value?.soundShifts || [])];
+    
 
     soundShifts.push({
       id: uuidv4(),
       ...data,
-    });
+    } as SoundShift);
 
     languages.value.map((language) => {
       if (language.id === currentLanguageId.value) {
@@ -135,7 +130,7 @@ export const useLanguageStore = defineStore("language", () => {
             return {
               ...soundShift,
               ...updated,
-            };
+            } as SoundShift;
           }
           return soundShift;
         });
