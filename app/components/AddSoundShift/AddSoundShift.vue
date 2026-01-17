@@ -4,6 +4,9 @@ import type { StepperItem } from "@nuxt/ui";
 import type { VNode } from "vue";
 
 import ShiftsForm from "./Steps/1_Shifts.vue";
+import ConditionsForm from "./Steps/2_Conditions.vue";
+import FlagsForm from "./Steps/3_Flags.vue";
+import ChaosForm from "./Steps/4_Chaos.vue";
 
 const eventStore = useEventStore();
 const languageStore = useLanguageStore();
@@ -28,17 +31,17 @@ const steps: Array<StepperItem & { form: VNode }> = [
   {
     title: "Conditions",
     icon: "i-material-symbols:rule-rounded",
-    form: h(ShiftsForm, {}),
+    form: h(ConditionsForm, {}),
   },
   {
     title: "Flags",
     icon: "i-ion:flag",
-    form: h(ShiftsForm, {}),
+    form: h(FlagsForm, {}),
   },
   {
-    title: "Occurrence",
+    title: "Chaos",
     icon: "i-ion:dice",
-    form: h(ShiftsForm, {}),
+    form: h(ChaosForm, {}),
   },
 ];
 

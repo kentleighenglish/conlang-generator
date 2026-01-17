@@ -1,9 +1,11 @@
-<!-- Step 2: At start, at end, before, after -->
 <script lang="ts" setup>
-defineModel<NewSoundShift>();
+const model = defineModel<NewSoundShift>();
 </script>
 <template>
-  <UForm>
-
+  <UForm v-if="model">
+    <!-- Step 2: At start, at end, before, after -->
+    <UFormField label="From">
+      <TableSelectSound v-model="model.from" lang="en" />
+    </UFormField>
   </UForm>
 </template>
