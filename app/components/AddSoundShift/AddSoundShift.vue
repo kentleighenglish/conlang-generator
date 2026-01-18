@@ -20,7 +20,9 @@ eventStore.subscribe("addSoundShift", () => {
   modalOpen.value = true;
 });
 
-const form = ref<NewSoundShift>(cloneDeep(languageStore.initialSoundShift as NewSoundShift));
+const form = ref<NewSoundShift>(
+  cloneDeep(languageStore.initialSoundShift as NewSoundShift),
+);
 const resetForm = () => form.value = cloneDeep(languageStore.initialSoundShift);
 
 resetForm();
@@ -29,9 +31,9 @@ const schema: z.ZodObject[] = [
   z.object({
     from: z.string("You must select a sound to shift"),
     to: z.string().optional(),
-    shiftMode: z.enum(ShiftModeArray as string[]),
+    shiftMode: z.enum(ShiftModeArray as string[]).optional(),
   }).refine(({ to, shiftMode }) => {
-    return (shiftMode && !to) && (to && !shiftMode) ? true : false;
+    return ((!!shiftMode && !to) || (!!to && !shiftMode)) ? true : false;
   }),
   z.object({
     startOnly: z.boolean(),
@@ -52,7 +54,6 @@ const schema: z.ZodObject[] = [
 
 const currentStepComplete = computed<boolean>(() => {
   const currentSchema: z.ZodObject = schema[currentStep.value]!;
-  
   const { success } = currentSchema.safeParse(form.value);
 
   return !!success;
@@ -96,7 +97,12 @@ const currentStep = ref<number>(0);
   <UModal v-model:open="modalOpen">
     <template #title>
       <div class="w-100">
-        <UStepper ref="stepper" v-model="currentStep" :items="steps" size="sm"></UStepper>
+        <UStepper 
+          ref="stepper"
+          v-model="currentStep"
+          :items="steps"
+          size="sm"
+        />
       </div>
     </template>
     <template #body>
@@ -105,16 +111,16 @@ const currentStep = ref<number>(0);
     <template #footer>
       <div class="flex gap-2 justify-between mt-4 w-full">
         <UButton
+          :class="{ 'invisible': !stepper?.hasPrev }"
           leading-icon="i-lucide-arrow-left"
-          variant="solid"
-          :disabled="!stepper?.hasPrev"
           @click="stepper?.prev()"
         >Prev</UButton>
-
         <UButton
+          :class="{ 'invisible': !stepper?.hasNext }"
           trailing-icon="i-lucide-arrow-right"
-          variant="solid"
-          :disabled="!stepper?.hasNext || !currentStepComplete"
+          :variant="!currentStepComplete ? 'subtle' : 'solid'"
+          :color="!currentStepComplete ? 'primary' : 'primary'"
+          :disabled="!currentStepComplete"
           @click="stepper?.next()"
         >Next</UButton>
       </div>
