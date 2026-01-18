@@ -52,14 +52,10 @@ const schema: z.ZodObject[] = [
   }),
 ];
 
-const currentStepComplete = computed<boolean>(() => {
-  const currentSchema: z.ZodObject = schema[currentStep.value]!;
-  const { success } = currentSchema.safeParse(form.value);
+const validateStep = (stepSchema?: z.ZodObject) => stepSchema?.safeParse(form.value).success;
+const currentStepValid = computed(() => validateStep(schema[currentStep.value]));
 
-  return !!success;
-});
-
-const steps: Array<StepperItem & { form: VNode }> = [
+const steps = computed<Array<StepperItem & { form: VNode }>>(() => ([
   {
     title: "Shift",
     icon: "i-material-symbols:translate",
@@ -73,6 +69,7 @@ const steps: Array<StepperItem & { form: VNode }> = [
     form: h(ConditionsForm, {
       schema: schema[1]!,
     }),
+    disabled: !validateStep(schema[0]),
   },
   {
     title: "Flags",
@@ -80,6 +77,7 @@ const steps: Array<StepperItem & { form: VNode }> = [
     form: h(FlagsForm, {
       schema: schema[2]!,
     }),
+    disabled: !validateStep(schema[1])
   },
   {
     title: "Chaos",
@@ -87,8 +85,9 @@ const steps: Array<StepperItem & { form: VNode }> = [
     form: h(ChaosForm, {
       schema: schema[3]!,
     }),
+    disabled: !validateStep(schema[2]),
   },
-];
+]));
 
 const stepper = useTemplateRef("stepper");
 const currentStep = ref<number>(0);
@@ -118,9 +117,9 @@ const currentStep = ref<number>(0);
         <UButton
           :class="{ 'invisible': !stepper?.hasNext }"
           trailing-icon="i-lucide-arrow-right"
-          :variant="!currentStepComplete ? 'subtle' : 'solid'"
-          :color="!currentStepComplete ? 'primary' : 'primary'"
-          :disabled="!currentStepComplete"
+          :variant="!currentStepValid ? 'subtle' : 'solid'"
+          :color="!currentStepValid ? 'primary' : 'primary'"
+          :disabled="!currentStepValid"
           @click="stepper?.next()"
         >Next</UButton>
       </div>
