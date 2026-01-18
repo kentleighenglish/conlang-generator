@@ -17,6 +17,7 @@ const languageStore = useLanguageStore();
 const modalOpen = ref<boolean>(false);
 
 eventStore.subscribe("addSoundShift", () => {
+  resetForm();
   modalOpen.value = true;
 });
 
@@ -93,7 +94,8 @@ const stepper = useTemplateRef("stepper");
 const currentStep = ref<number>(0);
 
 const onSubmit = () => {
-  
+  languageStore.addSoundShift(form.value);
+  resetForm();
 }
 </script>
 <template>
