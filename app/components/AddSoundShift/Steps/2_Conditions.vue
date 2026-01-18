@@ -7,13 +7,22 @@
     schema: ZodObject,
   }>();
 
-  const invalidateFields = () => {
+  const invalidateFields = (key: string) => {
     if (model.value) {
-      if (model.value.endOnly) {
-        model.value.trailing = undefined;
-      }
-      if (model.value.startOnly) {
-        model.value.leading = undefined;
+      switch (true) {
+        case !!(key === "endOnly" && model.value.endOnly):
+          console.log("end only enabled");
+          model.value.trailing = undefined;
+          break;
+        case !!(key === "trailing" && model.value.trailing):
+          model.value.endOnly = false;
+          break;
+        case !!(key === "startOnly" && model.value.startOnly):
+          model.value.leading = undefined;
+          break;
+        case !!(key === "leading" && model.value.leading):
+          model.value.startOnly = false;
+          break;
       }
     }
   };  
@@ -28,11 +37,11 @@
           class="flex align-center"
           label="Start Only"
           description="Restrict shift to sounds at start"
-          @update:model-value="invalidateFields()"
+          @update:model-value="invalidateFields('startOnly')"
         />
       </UFormField>
       <UFormField label="Leading Sound" class="w-full">
-        <TableSelectSound v-model="model.leading" lang="en" class="w-full" @update:model-value="invalidateFields()" />
+        <TableSelectSound v-model="model.leading" lang="en" class="w-full" @update:model-value="invalidateFields('leading')" />
       </UFormField>
     </div>
     <USeparator />
@@ -43,11 +52,11 @@
           class="flex align-center"
           label="End Only"
           description="Restrict shift to sounds at end"
-          @update:model-value="invalidateFields()"
+          @update:model-value="invalidateFields('endOnly')"
         />
       </UFormField>
       <UFormField label="Trailing sound" class="w-full">
-        <TableSelectSound v-model="model.trailing" lang="en" class="w-full" @update:model-value="invalidateFields()" />
+        <TableSelectSound v-model="model.trailing" lang="en" class="w-full" @update:model-value="invalidateFields('trailing')" />
       </UFormField>
     </div>
   </UForm>

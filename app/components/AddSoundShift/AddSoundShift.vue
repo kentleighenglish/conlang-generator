@@ -91,6 +91,10 @@ const steps = computed<Array<StepperItem & { form: VNode }>>(() => ([
 
 const stepper = useTemplateRef("stepper");
 const currentStep = ref<number>(0);
+
+const onSubmit = () => {
+  
+}
 </script>
 <template>
   <UModal v-model:open="modalOpen">
@@ -109,19 +113,30 @@ const currentStep = ref<number>(0);
     </template>
     <template #footer>
       <div class="flex gap-2 justify-between mt-4 w-full">
-        <UButton
-          :class="{ 'invisible': !stepper?.hasPrev }"
-          leading-icon="i-lucide-arrow-left"
-          @click="stepper?.prev()"
-        >Prev</UButton>
-        <UButton
-          :class="{ 'invisible': !stepper?.hasNext }"
-          trailing-icon="i-lucide-arrow-right"
-          :variant="!currentStepValid ? 'subtle' : 'solid'"
-          :color="!currentStepValid ? 'primary' : 'primary'"
-          :disabled="!currentStepValid"
-          @click="stepper?.next()"
-        >Next</UButton>
+        <div>
+          <UButton
+            v-if="stepper?.hasPrev"
+            leading-icon="i-lucide-arrow-left"
+            @click="stepper?.prev()"
+          >Prev</UButton>
+        </div>
+        <div>
+          <UButton
+            v-if="stepper?.hasNext"
+            trailing-icon="i-lucide-arrow-right"
+            :variant="!currentStepValid ? 'subtle' : 'solid'"
+            :color="!currentStepValid ? 'primary' : 'primary'"
+            :disabled="!currentStepValid"
+            @click="stepper?.next()"
+          >Next</UButton>
+          <UButton
+            v-else
+            :variant="!currentStepValid ? 'subtle' : 'solid'"
+            :color="!currentStepValid ? 'primary' : 'primary'"
+            :disabled="!currentStepValid"
+            @click="onSubmit"
+          >Save</UButton>
+        </div>
       </div>
     </template>
   </UModal>
