@@ -8,11 +8,11 @@ type SoundShiftWithoutId = {
   occurrence: number;
 }
 
-enum ShiftMode {
-  "changeVoice",
-  "dropSound"
+export enum ShiftModeEnum {
+  "changeVoice" = "changeVoice",
+  "dropSound" = "dropSound"
 }
-export const ShiftModeArray = Object.values(ShiftMode);
+export const ShiftModeArray = Object.values(ShiftModeEnum);
 
 type SoundShiftEmpty = {
   from: undefined;
@@ -27,7 +27,7 @@ type SoundShiftNoMode = {
 type SoundShiftNormal = {
   from: string;
   to: undefined;
-  shiftMode: ShiftMode
+  shiftMode: ShiftModeEnum
 }
 type SoundShiftMode = SoundShiftEmpty | SoundShiftNoMode | SoundShiftNormal;
 

@@ -4,10 +4,11 @@ import type { LanguageKey } from "~~/types/translate";
 
 const props = withDefaults(defineProps<{
   lang?: LanguageKey | undefined,
+  disabled?: boolean,
 }>(), {
   lang: undefined,
+  disabled: false,
 });
-
 
 const model = defineModel<string>();
 
@@ -46,6 +47,7 @@ const allOptions = computed(() => [
       placeholder="Select Sound"
       label="Base Language"
       :class="$attrs.class"
+      :disabled="disabled"
       @update:model-value="onInput"
     />
   </div>

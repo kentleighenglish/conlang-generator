@@ -25,15 +25,15 @@ const resetForm = () => form.value = cloneDeep(languageStore.initialSoundShift);
 
 resetForm();
 
-const schema = {
-  shift: z.object({
+const schema: z.ZodObject[] = [
+  z.object({
     from: z.string("You must select a sound to shift"),
     to: z.string().optional(),
     shiftMode: z.enum(ShiftModeArray as string[]),
   }).refine(({ to, shiftMode }) => {
     return (shiftMode && !to) && (to && !shiftMode) ? true : false;
   }),
-  conditions: z.object({
+  z.object({
     startOnly: z.boolean(),
     leading: z.string().optional(),
     endOnly: z.boolean(),
@@ -42,36 +42,50 @@ const schema = {
     ((!startOnly && !!leading) || (startOnly && !leading)) &&
     ((!endOnly && !!trailing) || (endOnly && !trailing))
   )) ,
-  flags: z.object({
+  z.object({
     preventMultipleIterations: z.boolean(),
   }),
-  chaos: z.object({
+  z.object({
     occurrence: z.number(),
   }),
-};
+];
+
+const currentStepComplete = computed<boolean>(() => {
+  const currentSchema: z.ZodObject = schema[currentStep.value]!;
+  
+  const { success } = currentSchema.safeParse(form.value);
+
+  return !!success;
+});
 
 const steps: Array<StepperItem & { form: VNode }> = [
   {
     title: "Shift",
     icon: "i-material-symbols:translate",
     form: h(ShiftsForm, {
-      schema: schema.shift,
+      schema: schema[0]!,
     }),
   },
   {
     title: "Conditions",
     icon: "i-material-symbols:rule-rounded",
-    form: h(ConditionsForm, {}),
+    form: h(ConditionsForm, {
+      schema: schema[1]!,
+    }),
   },
   {
     title: "Flags",
     icon: "i-ion:flag",
-    form: h(FlagsForm, {}),
+    form: h(FlagsForm, {
+      schema: schema[2]!,
+    }),
   },
   {
     title: "Chaos",
     icon: "i-ion:dice",
-    form: h(ChaosForm, {}),
+    form: h(ChaosForm, {
+      schema: schema[3]!,
+    }),
   },
 ];
 
@@ -100,7 +114,7 @@ const currentStep = ref<number>(0);
         <UButton
           trailing-icon="i-lucide-arrow-right"
           variant="solid"
-          :disabled="!stepper?.hasNext"
+          :disabled="!stepper?.hasNext || !currentStepComplete"
           @click="stepper?.next()"
         >Next</UButton>
       </div>

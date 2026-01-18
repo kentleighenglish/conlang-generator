@@ -14,6 +14,7 @@ export default withNuxt([
       quotes: [2, "double"],
       "vue/multi-word-component-names": 0,
       "comma-dangle": ["warn", "always-multiline"],
+      "vue/max-len": ["warn"],
     },
   },
 ]);
