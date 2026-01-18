@@ -96,6 +96,7 @@ const currentStep = ref<number>(0);
 const onSubmit = () => {
   languageStore.addSoundShift(form.value);
   resetForm();
+  modalOpen.value = false;
 }
 </script>
 <template>
