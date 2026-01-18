@@ -41,8 +41,8 @@ const schema: z.ZodObject[] = [
     endOnly: z.boolean(),
     trailing: z.string().optional(),
   }).refine(({ startOnly, leading, endOnly, trailing }) => (
-    ((!startOnly && !!leading) || (startOnly && !leading)) &&
-    ((!endOnly && !!trailing) || (endOnly && !trailing))
+    (!startOnly || (startOnly && !trailing)) &&
+    ((!endOnly) || (endOnly && !trailing))
   )) ,
   z.object({
     preventMultipleIterations: z.boolean(),

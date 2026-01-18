@@ -8,7 +8,6 @@
   }>();
 
 const switchMode = (mode?: ShiftModeEnum) => {
-  console.log(mode);
   if (model.value) {
     if (mode) {
       model.value.shiftMode = mode === model.value.shiftMode ? undefined : mode;
@@ -49,7 +48,6 @@ const switchMode = (mode?: ShiftModeEnum) => {
         v-model="model.to"
         class="w-full"
         lang="en"
-        :disabled="!!model.shiftMode"
         @update:model-value="switchMode()"
       />
     </UFormField>
