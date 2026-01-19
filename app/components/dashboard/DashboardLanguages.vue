@@ -5,6 +5,7 @@ import type {
   TableColumn,
   TableRow,
 } from "@nuxt/ui";
+import { consonants } from "~/data/ipa/_all";
 import type { SoundShift } from "~/stores/languages";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
@@ -71,20 +72,27 @@ const tableColumns: TableColumn<SoundShift>[] = [
     accessorKey: "from",
     enableResizing: true,
     header: "From",
-    cell: ({ row, cell }) => h(SelectSound, {
-      lang: currentLanguage.value?.languageBase,
-      modelValue: cell.getValue(),
-      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { from: value }),
-    }),
+    cell: ({ cell }) => renderIPA(cell.getValue() as string),
   },
   {
     accessorKey: "to",
     header: "To",
-    cell: ({ row, cell }) => h(SelectSound, {
-      lang: currentLanguage.value?.languageBase,
-      modelValue: cell.getValue(),
-      "onUpdate:modelValue": (value: string) => updateSoundShift(row.original.id, { to: value }),
-    }),
+    cell: ({ row, cell }) => {
+      const { from, to, shiftMode } = row.original;
+      console.log(row.original);
+
+      if (shiftMode === "dropSound") {
+        return h("span", {}, "DROP");
+      } else if (shiftMode === "changeVoice") {
+        const alternative = getVoicingAlternative(from);
+        if (alternative) {
+          return renderIPA(alternative.ligature);
+        } else {
+          return h("span", {}, "N/A");
+        }
+      }
+      return renderIPA(to as string);
+    }
   },
   {
     accessorKey: "preceding",
@@ -109,11 +117,18 @@ const tableColumns: TableColumn<SoundShift>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => h(UButton, {
-      icon: "i-ion:trash",
-      variant: "ghost",
-      onClick: () => languageStore.removeSoundShift(row.original.id),
-    }),
+    cell: ({ row }) => h("div", { class: "flex justify-end gap-4" }, [
+      h(UButton, {
+        icon: "i-ion:edit",
+        variant: "ghost",
+        onClick: () => languageStore.removeSoundShift(row.original.id),
+      }),
+      h(UButton, {
+        icon: "i-ion:trash",
+        variant: "ghost",
+        onClick: () => languageStore.removeSoundShift(row.original.id),
+      }),
+    ])
   },
 ];
 
