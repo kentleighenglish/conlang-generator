@@ -64,7 +64,7 @@ const schema: z.ZodObject[] = [
     ((!endOnly) || (endOnly && !trailing && !startOnly))
   )) ,
   z.object({
-    preventMultipleIterations: z.boolean(),
+    allowMultipleIterations: z.boolean(),
   }),
   z.object({
     occurrence: z.number(),

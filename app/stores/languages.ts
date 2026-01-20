@@ -28,7 +28,7 @@ export const useLanguageStore = defineStore("language", () => {
     endOnly: false,
     trailing: undefined,
     occurrence: 1,
-    preventMultipleIterations: false,
+    allowMultipleIterations: false,
   });
 
   const init = () => {

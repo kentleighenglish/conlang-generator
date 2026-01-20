@@ -130,11 +130,11 @@ const tableColumns: TableColumn<SoundShift>[] = [
       h(UButton, {
         icon: "i-ion:edit",
         variant: "ghost",
-        color: "secondary",
+        color: "primary",
         onClick: () => eventStore.dispatch("editSoundShift", { id: row.original.id }),
       }),
       h(UButton, {
-        icon: "i-ion:trash",
+        icon: "i-ion:trash-outline",
         variant: "ghost",
         onClick: () => languageStore.removeSoundShift(row.original.id),
       }),

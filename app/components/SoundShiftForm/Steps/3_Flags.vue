@@ -12,10 +12,10 @@ const form = useTemplateRef("form");
   <UForm v-if="model" ref="form" class="w-full space-y-4" :schema="schema">
       <UFormField orientation="horizontal" class="w-full">
         <UCheckbox
-          v-model="model.preventMultipleIterations"
+          v-model="model.allowMultipleIterations"
           class="flex align-center"
-          label="Prevent Multiple Iterations"
-          description="Will ensure this sound shift is not affected by further sound shifts"
+          label="Allow Multiple Iterations"
+          description="Will allow this sound shift to be affected by further sound shifts"
         />
       </UFormField>
   </UForm>

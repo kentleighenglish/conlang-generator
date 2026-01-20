@@ -1,10 +1,10 @@
 type SoundShiftBase = {
   id: string;
-  preventMultipleIterations: boolean;
+  allowMultipleIterations: boolean;
   occurrence: number;
 }
 type SoundShiftWithoutId = {
-  preventMultipleIterations: boolean;
+  allowMultipleIterations: boolean;
   occurrence: number;
 }
 
