@@ -150,9 +150,8 @@ const onSubmit = () => {
             @click="stepper?.next()"
           >Next</UButton>
         </div>
-        <div v-if="editMode" class="flex w-full justify-end">
+        <div v-if="!stepper?.hasNext || editMode" class="flex w-full justify-end">
           <UButton
-            v-if="!stepper?.hasNext || editMode"
             :variant="!currentStepValid ? 'subtle' : 'solid'"
             :color="!currentStepValid ? 'primary' : 'primary'"
             :disabled="!currentStepValid"
