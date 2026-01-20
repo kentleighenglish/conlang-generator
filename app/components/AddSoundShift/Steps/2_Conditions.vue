@@ -11,14 +11,15 @@
     if (model.value) {
       switch (true) {
         case !!(key === "endOnly" && model.value.endOnly):
-          console.log("end only enabled");
           model.value.trailing = undefined;
+          model.value.startOnly = false;
           break;
         case !!(key === "trailing" && model.value.trailing):
           model.value.endOnly = false;
           break;
         case !!(key === "startOnly" && model.value.startOnly):
           model.value.leading = undefined;
+          model.value.endOnly = false;
           break;
         case !!(key === "leading" && model.value.leading):
           model.value.startOnly = false;

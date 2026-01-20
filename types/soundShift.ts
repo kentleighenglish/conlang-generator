@@ -33,27 +33,29 @@ type SoundShiftMode = SoundShiftEmpty | SoundShiftNoMode | SoundShiftNormal;
 
 type SoundShiftNoCondition = {
   startOnly: false;
-  leading: undefined;
+  leading?: string;
   endOnly: false;
-  trailing: undefined;
+  trailing?: string;
 }
 type SoundShiftStart = {
   startOnly: true;
   leading: undefined;
-}
-type SoundShiftLeading = {
-  startOnly: false;
-  leading: string;
+  endOnly: false;
+  trailing?: string;
 }
 type SoundShiftEnd = {
+  startOnly: false;
+  leading?: string;
   endOnly: true;
   trailing: undefined;
 }
-type SoundShiftTrailing = {
-  endOnly: false;
-  trailing: string;
-}
-type SoundShiftConditions = SoundShiftNoCondition | ((SoundShiftStart | SoundShiftLeading) & (SoundShiftEnd | SoundShiftTrailing));
+// type SoundShiftStartEnd = {
+//   startOnly: true;
+//   leading: undefined;
+//   endOnly: true;
+//   trailing: undefined;
+// }
+type SoundShiftConditions = SoundShiftNoCondition | SoundShiftStart | SoundShiftEnd;
 
 export type SoundShift = SoundShiftBase & SoundShiftMode & SoundShiftConditions;
 export type NewSoundShift = SoundShiftWithoutId & SoundShiftMode & SoundShiftConditions;

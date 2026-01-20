@@ -5,15 +5,13 @@ import type {
   TableColumn,
   TableRow,
 } from "@nuxt/ui";
-import { consonants } from "~/data/ipa/_all";
-import type { SoundShift } from "~/stores/languages";
+import type { SoundShift } from "~~/types/soundShift";
 import { ValidLanguages, type LanguageKey } from "~~/types/translate";
 
 const UButton = resolveComponent("UButton");
 const UTooltip = resolveComponent("UTooltip");
 const CustomSlider = resolveComponent("CustomSlider");
 const UIcon = resolveComponent("UIcon");
-const SelectSound = resolveComponent("TableSelectSound");
 
 const languageStore = useLanguageStore();
 const eventStore = useEventStore();
