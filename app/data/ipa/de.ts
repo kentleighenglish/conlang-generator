@@ -10,6 +10,7 @@ export const vowels = getVowelCollection(
   "ɪ",
   "iː",
   "oː",
+  "o",
   "ɔ",
   "øː",
   "œ",
