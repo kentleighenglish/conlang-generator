@@ -1,6 +1,9 @@
 <script lang="ts" setup>
   import type { ZodObject} from "zod";
   import { ShiftModeEnum, type SoundShift } from "~~/types/soundShift";
+
+  const languageStore = useLanguageStore();
+  const currentLanguage = computed(() => languageStore.currentLanguage);
   
   const model = defineModel<SoundShift>();
   defineProps<{
@@ -24,7 +27,7 @@ const noVoiceAlternative = computed(() => model.value?.from ? !getVoicingAlterna
   <UForm v-if="model" class="w-full space-y-4" :schema="schema">
     <!-- Step 1: From, To, drop shift, make voiced/voiceless -->
     <UFormField label="From">
-      <TableSelectSound v-model="model.from" lang="en" class="w-full" />
+      <TableSelectSound v-model="model.from" :lang="currentLanguage?.languageBase || undefined" class="w-full" />
     </UFormField>
     <USeparator />
     <div class="flex">

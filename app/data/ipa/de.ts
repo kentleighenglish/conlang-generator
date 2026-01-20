@@ -1,6 +1,7 @@
 import { getVowelCollection, getConsonantCollection } from "./_all";
 
 export const vowels = getVowelCollection(
+  "ɑ",
   "a",
   "aː",
   "ɛ",
