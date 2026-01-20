@@ -73,11 +73,10 @@ const tableColumns: TableColumn<SoundShift>[] = [
     cell: ({ cell }) => renderIPA(cell.getValue() as string),
   },
   {
-    accessorKey: "to",
+    id: "to",
     header: "To",
-    cell: ({ row, cell }) => {
+    cell: ({ row }) => {
       const { from, to, shiftMode } = row.original;
-      console.log(row.original);
 
       if (shiftMode === "dropSound") {
         return h("span", {}, "DROP");
@@ -93,8 +92,20 @@ const tableColumns: TableColumn<SoundShift>[] = [
     }
   },
   {
-    accessorKey: "preceding",
-    header: "Preceding",
+    id: "conditions",
+    header: "Conditions",
+    cell: ({ row }) => {
+      const { startOnly, endOnly, trailing, leading, from } = row.original;
+      const leadingDisplay = leading ? leading : "-";
+      const trailingDisplay = trailing ? trailing : "-";
+      if (startOnly) {
+        return renderIPA(`${from}${trailingDisplay}-----`);
+      } else if (endOnly) {
+        return renderIPA(`-----${leadingDisplay}${from}`);
+      } else {
+        return renderIPA(`--${leadingDisplay}${from}${trailingDisplay}--`);
+      }
+    }
   },
   {
     accessorKey: "occurrence",
