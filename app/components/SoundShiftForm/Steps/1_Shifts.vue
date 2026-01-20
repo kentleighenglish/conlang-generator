@@ -53,7 +53,6 @@ const noVoiceAlternative = computed(() => model.value?.from ? !getVoicingAlterna
       <TableSelectSound
         v-model="model.to"
         class="w-full"
-        lang="en"
         @update:model-value="switchMode()"
       />
     </UFormField>
