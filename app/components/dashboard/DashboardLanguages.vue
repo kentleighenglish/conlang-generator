@@ -119,7 +119,8 @@ const tableColumns: TableColumn<SoundShift>[] = [
       h(UButton, {
         icon: "i-ion:edit",
         variant: "ghost",
-        onClick: () => languageStore.removeSoundShift(row.original.id),
+        color: "secondary",
+        onClick: () => eventStore.dispatch("editSoundShift", { id: row.original.id }),
       }),
       h(UButton, {
         icon: "i-ion:trash",
@@ -164,7 +165,7 @@ const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? 
                 <UButton
                   trailing-icon="i-ion:add-circle-outline"
                   :disabled="!currentLanguage.languageBase"
-                  @click="eventStore.dispatch('addSoundShift')"
+                  @click="eventStore.dispatch('editSoundShift')"
                 >
                   Add Sound Shift
                 </UButton>

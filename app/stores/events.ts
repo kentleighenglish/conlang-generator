@@ -1,4 +1,4 @@
-type EventData = Record<string, unknown>
+type EventData = Record<string, number | string | object | []>;
 type EventCallback = (data?: EventData) => void;
 
 export const useEventStore = defineStore("events", () => {

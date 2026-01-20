@@ -15,16 +15,34 @@ const eventStore = useEventStore();
 const languageStore = useLanguageStore();
 
 const modalOpen = ref<boolean>(false);
+const currentId = ref<string | null>(null);
 
-eventStore.subscribe("addSoundShift", () => {
-  resetForm();
+const editMode = computed(() => !!currentId.value);
+
+const stepper = useTemplateRef("stepper");
+const currentStep = ref<number>(0);
+
+eventStore.subscribe("editSoundShift", (data) => {
+  currentId.value = (data?.id as string) ?? null;
   modalOpen.value = true;
+  resetForm();
 });
 
 const form = ref<NewSoundShift>(
   cloneDeep(languageStore.initialSoundShift as NewSoundShift),
 );
-const resetForm = () => form.value = cloneDeep(languageStore.initialSoundShift);
+const resetForm = () => {
+  currentStep.value = 0;
+  if (currentId.value) {
+    const editSoundShift = languageStore.currentLanguage?.soundShifts.find((soundShift) => soundShift.id === currentId.value);
+    if (editSoundShift) {
+      form.value = cloneDeep(editSoundShift);
+    }
+  } else {
+    currentId.value = null;
+    form.value = cloneDeep(languageStore.initialSoundShift);
+  }
+}
 
 resetForm();
 
@@ -90,11 +108,12 @@ const steps = computed<Array<StepperItem & { form: VNode }>>(() => ([
   },
 ]));
 
-const stepper = useTemplateRef("stepper");
-const currentStep = ref<number>(0);
-
 const onSubmit = () => {
-  languageStore.addSoundShift(form.value);
+  if (currentId.value) {
+    languageStore.updateSoundShift(currentId.value, form.value);
+  } else {
+    languageStore.addSoundShift(form.value);
+  }
   resetForm();
   modalOpen.value = false;
 }
@@ -115,15 +134,13 @@ const onSubmit = () => {
       <component :is="steps[currentStep]!.form" v-model="form" />
     </template>
     <template #footer>
-      <div class="flex gap-2 justify-between mt-4 w-full">
-        <div>
+      <div class="flex w-full gap-4">
+        <div class="flex gap-2 justify-between shrink-1">
           <UButton
             v-if="stepper?.hasPrev"
             leading-icon="i-lucide-arrow-left"
             @click="stepper?.prev()"
           >Prev</UButton>
-        </div>
-        <div>
           <UButton
             v-if="stepper?.hasNext"
             trailing-icon="i-lucide-arrow-right"
@@ -132,8 +149,10 @@ const onSubmit = () => {
             :disabled="!currentStepValid"
             @click="stepper?.next()"
           >Next</UButton>
+        </div>
+        <div v-if="editMode" class="flex w-full justify-end">
           <UButton
-            v-else
+            v-if="!stepper?.hasNext || editMode"
             :variant="!currentStepValid ? 'subtle' : 'solid'"
             :color="!currentStepValid ? 'primary' : 'primary'"
             :disabled="!currentStepValid"
