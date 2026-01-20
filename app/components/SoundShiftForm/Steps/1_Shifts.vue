@@ -17,6 +17,8 @@ const switchMode = (mode?: ShiftModeEnum) => {
     }
   }
 };
+
+const noVoiceAlternative = computed(() => model.value?.from ? !getVoicingAlternative(model.value?.from) : false);
 </script>
 <template>
   <UForm v-if="model" class="w-full space-y-4" :schema="schema">
@@ -31,6 +33,7 @@ const switchMode = (mode?: ShiftModeEnum) => {
           :model-value="model.shiftMode === ShiftModeEnum.changeVoice"
           label="Make voiced/voiceless"
           description="Makes voiced sounds voiceless and vice versa"
+          :disabled="!model.from || noVoiceAlternative"
           @update:model-value="switchMode(ShiftModeEnum.changeVoice)"
         />
       </UFormField>
