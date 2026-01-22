@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       title: "Conlang Generator",
     },
   },
+  runtimeConfig: {
+    public: {
+      translateEndpoint: "",
+    }
+  },
   nitro: {
     devStorage: {
       translation: {

@@ -18,7 +18,12 @@ export const useTranslationStore = defineStore("translation", () => {
     }
 
     try {
-      const data = await $fetch<TranslateResponse>("/api/translate", {
+      const { public: { translateEndpoint } } = useRuntimeConfig();
+      if (!translateEndpoint) {
+        throw "Translation endpoint is not configure";
+      }
+
+      const data = await $fetch<TranslateResponse>(translateEndpoint, {
         query: {
           input: translateInput.join(","),
           synonymCount,
