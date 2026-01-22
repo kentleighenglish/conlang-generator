@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "@nuxt/eslint", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
-  ssr: false,
+  // ssr: false,
   app: {
     head: {
       title: "Conlang Generator",
@@ -15,20 +15,20 @@ export default defineNuxtConfig({
       translateEndpoint: "",
     }
   },
-  nitro: {
-    devStorage: {
-      translation: {
-        driver: "fs",
-        base: "./.cache/translation",
-      },
-    },
-    prerender: {
-      autoSubfolderIndex: false
-    },
-    preset: "cloudflare_module",
-    cloudflare: {
-      deployConfig: true,
-      nodeCompat: true
-    }
-  },
+  // nitro: {
+  //   devStorage: {
+  //     translation: {
+  //       driver: "fs",
+  //       base: "./.cache/translation",
+  //     },
+  //   },
+  //   prerender: {
+  //     autoSubfolderIndex: false
+  //   },
+  //   preset: "cloudflare_module",
+  //   cloudflare: {
+  //     deployConfig: true,
+  //     nodeCompat: true
+  //   }
+  // },
 });
