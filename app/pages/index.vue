@@ -119,11 +119,13 @@ watch(currentLanguage, (currentLang) => {
 </script>
 <template>
   <div class="flex flex-col w-screen h-screen overflow-hidden">
-    <UModal ref="addLanguageModal" v-model:open="addLanguageModalOpen">
+    <UModal ref="addLanguageModal" v-model:open="addLanguageModalOpen" title="Add Language">
       <template #body>
-        <UForm @submit="onAddLanguage">
-          <UInput v-model="addLanguageName" type="text" placeholder="Name" />
-          <UButton type="submit" block color="primary">Add</UButton>
+        <UForm @submit="onAddLanguage" class="w-full space-y-4">
+          <UFormField class="w-full">
+            <UInput v-model="addLanguageName" type="text" placeholder="Name" size="lg" class="w-full" />
+          </UFormField>
+          <UButton type="submit" block color="primary" :disabled="!addLanguageName.length">Add</UButton>
         </UForm>
       </template>
     </UModal>
