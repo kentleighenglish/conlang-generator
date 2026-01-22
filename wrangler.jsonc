@@ -1,0 +1,9 @@
+{
+    "name": "conglang-generator-api",
+    "compatibility_date": "2026-01-22",
+    "main": ".output/public/index.html",
+    "assets": {
+      "directory": ".output/public",
+      "not_found_handling": "404-page"
+    }
+}

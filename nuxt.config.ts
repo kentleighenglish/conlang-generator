@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "@nuxt/eslint", "@pinia/nuxt"],
   css: ["~/assets/css/main.css"],
+  ssr: false,
   app: {
     head: {
       title: "Conlang Generator",
@@ -16,8 +17,13 @@ export default defineNuxtConfig({
         base: "./.cache/translation",
       },
     },
-  },
-  runtimeConfig: {
-    isServer: true,
+    prerender: {
+      autoSubfolderIndex: false
+    },
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true
+    }
   },
 });
