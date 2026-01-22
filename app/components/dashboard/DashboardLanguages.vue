@@ -13,6 +13,8 @@ const UTooltip = resolveComponent("UTooltip");
 const CustomSlider = resolveComponent("CustomSlider");
 const UIcon = resolveComponent("UIcon");
 
+const onOpenAddLanguageModal = inject("onOpenAddLanguageModal");
+
 const languageStore = useLanguageStore();
 const eventStore = useEventStore();
 
@@ -191,7 +193,11 @@ const data = computed<SoundShift[]>(() => currentLanguage.value?.soundShifts ?? 
             />
           </UCard>
         </div>
-        <UEmpty v-else title="No language selected" />
+        <UEmpty v-else title="No language selected">
+          <template #body>
+            <UButton @click="onOpenAddLanguageModal">Add Language</UButton>
+          </template>
+        </UEmpty>
       </template>
     </UDashboardPanel>
   </UDashboardGroup>

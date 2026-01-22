@@ -9,20 +9,20 @@ const activeTab = ref<number>(0); // this is changed by UTabs
 const DashboardLanguages = resolveComponent("DashboardLanguages");
 const DashboardTranslator = resolveComponent("DashboardTranslator");
 
-const Todo = h(
-  "div",
-  { class: "w-full h-full p-8" },
-  h(
-    "ul",
-    { class: "list-disc" },
-    [
-      "Add languages button",
-      "Language store",
-      "Move translations to client",
-      "Save/load languages in localStorage",
-    ].map((item) => h("li", {}, item)),
-  ),
-);
+// const Todo = h(
+//   "div",
+//   { class: "w-full h-full p-8" },
+//   h(
+//     "ul",
+//     { class: "list-disc" },
+//     [
+//       "Add languages button",
+//       "Language store",
+//       "Move translations to client",
+//       "Save/load languages in localStorage",
+//     ].map((item) => h("li", {}, item)),
+//   ),
+// );
 
 const dashboardNav = [
   {
@@ -36,13 +36,14 @@ const dashboardNav = [
     label: "Translator",
     value: 1,
     node: h(DashboardTranslator),
+    disabled: true,
   },
-  {
-    icon: "i-ion:list",
-    label: "TODO",
-    value: 2,
-    node: h(Todo),
-  },
+  // {
+  //   icon: "i-ion:list",
+  //   label: "TODO",
+  //   value: 2,
+  //   node: h(Todo),
+  // },
 ];
 
 const addLanguageModalData = ref<object>({});
@@ -53,20 +54,24 @@ const onAddLanguage = () => {
     const newLanguage = languageStore.addLanguage({ name: addLanguageName.value });
     addLanguageModalOpen.value = false;
     addLanguageName.value = "";
-
-    console.log(newLanguage);
     languageStore.setCurrentLanguage(newLanguage.id);
   }
 };
+const onOpenAddLanguageModal = () => {
+  addLanguageName.value = "";
+  addLanguageModalData.value = {
+    prevLanguage: languageStore.currentLanguageId,
+  };
+  addLanguageModalOpen.value = true;
+}
+  
+provide("onOpenAddLanguageModal", () => onOpenAddLanguageModal());
 
 const currentLanguage = computed(() => languageStore.currentLanguage);
 const languageSelectValue = ref<string | undefined>(currentLanguage.value?.id ?? undefined);
 const onLanguageSelect = (id: AcceptableValue | undefined) => {
   if (id === "addLanguage") {
-    addLanguageModalData.value = {
-      prevLanguage: languageStore.currentLanguageId,
-    };
-    addLanguageModalOpen.value = true;
+    onOpenAddLanguageModal();
     return;
   }
 
