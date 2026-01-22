@@ -20,7 +20,7 @@ export const useTranslationStore = defineStore("translation", () => {
     try {
       const { public: { translateEndpoint } } = useRuntimeConfig();
       if (!translateEndpoint) {
-        throw "Translation endpoint is not configure";
+        throw "Translation endpoint is not configured";
       }
 
       const data = await $fetch<TranslateResponse>(translateEndpoint, {

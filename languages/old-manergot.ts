@@ -1,5 +1,5 @@
-import { fetchIPA } from "../helpers/unalengua";
-import type { LanguageClass, Translation } from "../../types/translate";
+import { fetchIPA } from "../server/helpers/unalengua";
+import type { LanguageClass, Translation } from "../types/translate";
 
 export class OldManergot implements LanguageClass {
   public name = "Old Manergot";
