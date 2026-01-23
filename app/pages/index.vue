@@ -24,7 +24,7 @@ const DashboardTranslator = resolveComponent("DashboardTranslator");
 //   ),
 // );
 
-const dashboardNav = [
+const dashboardNav = computed(() => ([
   {
     icon: "i-ion:language",
     label: "Languages",
@@ -36,7 +36,7 @@ const dashboardNav = [
     label: "Translator",
     value: 1,
     node: h(DashboardTranslator),
-    disabled: true,
+    disabled: !currentLanguage.value,
   },
   // {
   //   icon: "i-ion:list",
@@ -44,7 +44,7 @@ const dashboardNav = [
   //   value: 2,
   //   node: h(Todo),
   // },
-];
+]));
 
 const addLanguageModalData = ref<object>({});
 const addLanguageModalOpen = ref<boolean>(false);
@@ -107,7 +107,7 @@ onMounted(() => {
 });
 
 watch(activeTab, (newTab) => {
-  const newIndex = dashboardNav.findIndex((tab) => tab.value === newTab);
+  const newIndex = dashboardNav.value.findIndex((tab) => tab.value === newTab);
   tabCarousel.value?.emblaApi?.scrollTo(newIndex);
   localStorage.setItem("activeTab", newIndex.toString());
 });
